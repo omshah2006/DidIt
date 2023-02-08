@@ -1,10 +1,36 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from 'react-native';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <ScrollView style={styles.scrollContainer}>
+        <Image 
+          style={styles.image}
+          source={require('./assets/henryandom.jpg')} 
+        />
+        <Image 
+          style={styles.image}
+          source={require('./assets/henryandom.jpg')} 
+        />
+        <Image 
+          style={styles.image}
+          source={require('./assets/henryandom.jpg')} 
+        />
+        <Image 
+          style={styles.image}
+          source={require('./assets/henryandom.jpg')} 
+        />
+        <Image 
+          style={styles.image}
+          source={require('./assets/henryandom.jpg')} 
+        />
+        <Image 
+          style={styles.image}
+          source={require('./assets/henryandom.jpg')} 
+        />
+      </ScrollView>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +39,17 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFDD0',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  scrollContainer: {
+    showsVerticalScrollIndicator: false,
+  },
+  image: {
+    height: 400, 
+    width: Dimensions.get('window').width,
+    marginTop: 50,
+    marginBottom: 50
+  }
 });
