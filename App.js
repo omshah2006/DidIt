@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     showsVerticalScrollIndicator: false,
   },
   image: {
-    height: 400, 
+    height: 300, 
     width: Dimensions.get('window').width,
     marginTop: 50,
     marginBottom: 50
