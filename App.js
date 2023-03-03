@@ -1,55 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 
-export default function App() {
+const App = () => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getMovies = async () => {
+    try {
+      const response = await fetch('https://reactnative.dev/movies.json');
+      const json = await response.json();
+      setData(json.movies);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollContainer}>
-        <Image 
-          style={styles.image}
-          source={require('./assets/henryandom.jpg')} 
+    <View style={{flex: 1, padding: 24}}>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={({id}) => id}
+          renderItem={({item}) => (
+            <Text>
+              {item.title}, {item.releaseYear}
+            </Text>
+          )}
         />
-        <Image 
-          style={styles.image}
-          source={require('./assets/henryandom.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('./assets/henryandom.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('./assets/henryandom.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('./assets/henryandom.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('./assets/henryandom.jpg')} 
-        />
-      </ScrollView>
-
-      <StatusBar style="auto" />
+      )}
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFDD0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  scrollContainer: {
-    showsVerticalScrollIndicator: false,
-  },
-  image: {
-    height: 300, 
-    width: Dimensions.get('window').width,
-    marginTop: 50,
-    marginBottom: 50
-  }
-});
+export default App;
