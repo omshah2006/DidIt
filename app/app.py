@@ -33,13 +33,23 @@ def index():
             name = "Om Shah"
         else:
             name = "User ID not found."
-    response_dict = {"name": name}
+    response = {"name": name}
 
-    return response_dict
+    return response
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return "Logging you in..."
+    cursor = mysql.connection.cursor()
+    if request.method == 'POST':
+        username = request.values.get('username')
+        password = request.values.get('password')
+
+        auth = Authentication(cursor)
+        auth.login(username, password)
+
+    response = {"status": "Signed in"}
+
+    return response
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -52,5 +62,7 @@ def signup():
 
         auth = Authentication(cursor)
         auth.signup(first_name, last_name, username, password)
+
+    response = {"status": "Signed up"}
     
-    return "Signing you up... success"
+    return response
