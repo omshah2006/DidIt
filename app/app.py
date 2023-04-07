@@ -6,7 +6,7 @@ import os
 import platform
 
 if (platform.system() == 'Darwin'):
-    import auth.Authentication
+    from auth.Authentication import Authentication
 else:
     import public.DidIt.app.auth.Authentication
 
@@ -54,7 +54,7 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     cursor = mysql.connection.cursor()
-    if request.method == 'POST':
+    if request.method == 'GET':
         first_name = request.values.get('first_name')
         last_name = request.values.get('last_name')
         username = request.values.get('username')
