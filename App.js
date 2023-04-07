@@ -1,5 +1,5 @@
-import Home from "./Screens/Home";
-import Login from "./Screens/Login";
+import Home from './Screens/Home.js';
+import Login from './Screens/Login.js';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

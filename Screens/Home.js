@@ -9,7 +9,7 @@ export default function Home({navigation }) {
     <View style={styles.container}>
       <Button 
         style={styles.Button}
-        title="Navigate to second screen with english"
+        title="Navigate to English Screen"
         onPress={() => navigation.navigate("Login", { email: email, password: password})}
       />
       <Text style={styles.logo}>Did It</Text>
@@ -17,7 +17,7 @@ export default function Home({navigation }) {
         <TextInput  
           style={styles.inputText}
           placeholder="Name..." 
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#0a3e57"
           value={email}
           onChangeText={text => setEmail(text)}
         />
@@ -46,12 +46,6 @@ export default function Home({navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFD700',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   logo:{
     fontWeight:"bold",
     fontSize:50,
@@ -71,9 +65,18 @@ const styles = StyleSheet.create({
     height:50,
     color:"white"
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFD700',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   forgot:{
     color:"white",
     fontSize:11
+  },
+  loginText:{
+    color:"white"
   },
   loginBtn:{
     width:"80%",
@@ -84,9 +87,6 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     marginTop:40,
     marginBottom:10
-  },
-  loginText:{
-    color:"white"
   },
   Button:{
     color:"black"
