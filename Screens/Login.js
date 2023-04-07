@@ -9,10 +9,11 @@ export default function Home({navigation }) {
 
     return (
       <View style={styles.container}>
-         <Button 
-        title="Navigate to second screen with english"
-        onPress={() => navigation.navigate("Home", { language: "english" })}
-        />
+        
+        <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Picture")}>
+          <Text style={styles.buttonText}>Take Picture</Text>
+        </TouchableOpacity>
+
         <Text style={styles.logo}>Did It</Text>
        
         <View style={styles.inputView} >
@@ -88,5 +89,21 @@ const styles = StyleSheet.create({
   },
   loginText:{
     color:"white"
+  },
+  button: {
+    backgroundColor: '#fb5b5a',
+    padding: 8,
+    borderRadius: 15,
+    elevation: 2,
+    marginRight: 12,
+    marginLeft: 3,
+    marginBottom: 20,
+  },
+  buttonText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
 });
