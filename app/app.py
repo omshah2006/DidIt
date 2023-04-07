@@ -66,3 +66,5 @@ def signup():
     response = {"status": "Signed up"}
     
     return response
+
+# import api.v1.auth.test
