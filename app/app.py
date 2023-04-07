@@ -45,9 +45,9 @@ def login():
         password = request.values.get('password')
 
         auth = Authentication(cursor)
-        auth.login(username, password)
+        response = auth.login(username, password)
 
-    response = {"status": "Signed in"}
+    response = {"status": response}
 
     return response
 
