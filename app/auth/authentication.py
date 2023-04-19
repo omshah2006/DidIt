@@ -32,6 +32,7 @@ class Authentication:
         uid = self.generate_id(username)
         password = self.hash_pass(password)
         query_vars = (uid, first_name, last_name, username, password)
+        print(self.cursor)
         self.cursor.execute(query, query_vars)
 
         return True
