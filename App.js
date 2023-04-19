@@ -1,5 +1,6 @@
-import Home from './Screens/Home.js';
-import Login from './Screens/Login.js';
+import Home from "./Screens/Home";
+import Login from "./Screens/Login";
+import Picture from "./Screens/Picture";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -19,7 +20,10 @@ export default function App() {
           name="Home"
           component={Home}
         />
-       
+        <Stack.Screen
+          name="Picture"
+          component={Picture}
+        />
    
       </Stack.Navigator>
     </NavigationContainer>
