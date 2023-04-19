@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 
+
 export default function Add({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState(null);
@@ -133,11 +134,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#003f5c',
+    backgroundColor: '#fb5b5a',
     padding: 3,
     borderRadius: 2,
     elevation: 2,
     marginRight: 12,
+    marginLeft: 3,
   },
   buttonText: {
     fontSize: 10,

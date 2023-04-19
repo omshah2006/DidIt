@@ -1,5 +1,6 @@
 {
   "expo": {
+    "plugins": ["expo-image-picker"],
     "name": "DidIt",
     "slug": "DidIt",
     "version": "1.0.0",
@@ -15,13 +16,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to your camera to take pictures"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

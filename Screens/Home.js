@@ -10,7 +10,7 @@ export default function Home({navigation }) {
       <Button 
         style={styles.Button}
         title="Navigate to second screen with english"
-        onPress={() => navigation.navigate("Login", { email: email, password: password})}
+        onPress={() => navigation.navigate("Picture", { language: "english" })}
       />
       <Text style={styles.logo}>Did It</Text>
       <View style={styles.inputView}>

@@ -9,13 +9,22 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^18.0.1",
+    "@react-native-firebase/app": "^17.4.2",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "expo": "~48.0.6",
+    "expo-camera": "~13.2.1",
+    "expo-image-picker": "~14.1.1",
+    "expo-media-library": "~15.2.3",
     "expo-status-bar": "~1.4.4",
+    "firebase-tools": "^11.25.3",
     "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-native": "0.71.3",
     "react-native-web": "~0.18.10",
-    "react-dom": "18.2.0",
-    "@expo/webpack-config": "^18.0.1"
+    "undefined": "firebase/app",
+    "expo-dev-client": "~2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
