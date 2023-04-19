@@ -15,17 +15,11 @@
       "**/*"
     ],
     "ios": {
-<<<<<<< Updated upstream
-      "bundleIdentifier": "com.mycompany.didit",
+      "bundleIdentifier": "com.didit.didit",
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app needs access to your camera to take pictures"
       }
-=======
-      "bundleIdentifier": "com.didit.didit",
-      "bundleIdentifier": "com.didit.didit",
-      "supportsTablet": true
->>>>>>> Stashed changes
     },
     "android": {
       "package": "com.example.didit",
