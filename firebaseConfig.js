@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import Constants from 'expo-constants';
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
@@ -9,16 +10,15 @@ import { initializeApp } from 'firebase/app';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyAorD2TFL2DSENSexGnuwtVIgieYDBaL5Y',
-  authDomain: 'did-it-237f2.firebaseapp.com',
-//   databaseURL: 'https://project-id.firebaseio.com',
-  projectId: 'did-it-237f2',
-  storageBucket: 'did-it-237f2.appspot.com',
-//   messagingSenderId: 'sender-id',
-  appId: 'app-1-525897641401-ios-cbf5f5e09649147be2da68',
-//   measurementId: 'G-measurement-id',
+    apiKey: Constants.manifest?.extra?.firebaseApiKey,
+    authDomain: Constants.manifest?.extra?.firebaseAuthDomain,
+    projectId: Constants.manifest?.extra?.firebaseProjectId,
+    storageBucket: Constants.manifest?.extra?.firebaseStorageBucket,
+    messagingSenderId: Constants.manifest?.extra?.firebaseMessagingSenderId,
+    appId: Constants.manifest?.extra?.firebaseAppId,
 };
 
+
 const app = initializeApp(firebaseConfig);
-// For more information on how to access Firebase in your project,
-// see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
+
+export default app;
