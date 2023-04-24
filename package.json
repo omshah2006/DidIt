@@ -13,6 +13,7 @@
     "@react-native-firebase/app": "^17.4.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "dotenv": "^16.0.3",
     "expo": "~48.0.6",
     "expo-camera": "^13.2.1",
     "expo-dev-client": "~2.2.1",

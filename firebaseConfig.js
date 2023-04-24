@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import Constants from 'expo-constants';
 
 // Optionally import the services that you want to use
-// import {...} from "firebase/auth";
+// import * from "firebase/auth";
 // import {...} from "firebase/database";
 // import {...} from "firebase/firestore";
 // import {...} from "firebase/functions";
@@ -18,7 +18,5 @@ const firebaseConfig = {
     appId: Constants.manifest?.extra?.firebaseAppId,
 };
 
-
 const app = initializeApp(firebaseConfig);
-
 export default app;
