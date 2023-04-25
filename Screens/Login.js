@@ -40,8 +40,6 @@ export default function Home({navigation }) {
         <TouchableOpacity activeOpacity = {0.9} onPress={() => navigation.navigate("Signup")}>
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
-
-  
       </View>
     );
   }

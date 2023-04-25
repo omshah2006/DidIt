@@ -52,7 +52,6 @@ export default function Signup({navigation}) {
           <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleSignup}>
             <Text style={styles.loginText}>SIGNUP</Text>
           </TouchableOpacity>
-    
         </View>
       );
 }
