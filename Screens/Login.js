@@ -37,7 +37,7 @@ export default function Home({navigation }) {
         <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9}>
           <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity = {0.9}>
+        <TouchableOpacity activeOpacity = {0.9} onPress={() => navigation.navigate("Signup")}>
           <Text style={styles.loginText}>Signup</Text>
         </TouchableOpacity>
 

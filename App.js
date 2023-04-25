@@ -1,5 +1,6 @@
 import Home from "./Screens/Home";
 import Login from "./Screens/Login";
+import Signup from "./Screens/Signup_test"
 import Picture from "./Screens/Picture";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,11 +11,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-
         
         <Stack.Screen 
           name="Login"
           component={Login}
+        />
+        <Stack.Screen 
+          name="Signup"
+          component={Signup}
         />
         <Stack.Screen 
           name="Home"
