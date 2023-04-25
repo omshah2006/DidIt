@@ -1,24 +1,44 @@
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
+import { React, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button} from 'react-native';
+import { firebase } from '../firebaseConfig.js';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 
-export default function Home({navigation}) {
-    //Add signup stuff here
-    state={
-        email:"",
-        password:""
-    }
+export default function Signup({navigation}) {
+
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleSignup = () => {
+        const auth = getAuth(firebase);
+        createUserWithEmailAndPassword(email, password)
+          .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log('Registered with:', user.email);
+          })
+          .catch(error => alert(error.message))
+      }
 
       return (
         <View style={styles.container}>
   
           <Text style={styles.logo}>Did It</Text>
-         
+
+          <View style={styles.inputView} >
+            <TextInput  
+              style={styles.inputText}
+              placeholder="Username..." 
+              placeholderTextColor="#003f5c"
+              value={username}
+              onChangeText={text => setUsername(text)}/>
+          </View>
           <View style={styles.inputView} >
             <TextInput  
               style={styles.inputText}
               placeholder="Email..." 
               placeholderTextColor="#003f5c"
-              onChangeText={text => this.setState({email:text})}/>
+              value={email}
+              onChangeText={text => setEmail(text)}/>
           </View>
           <View style={styles.inputView} >
             <TextInput  
@@ -26,9 +46,10 @@ export default function Home({navigation}) {
               style={styles.inputText}
               placeholder="Password..." 
               placeholderTextColor="#003f5c"
-              onChangeText={text => this.setState({password:text})}/>
+              value={password}
+              onChangeText={text => setPassword(text)}/>
           </View>
-          <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9}>
+          <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleSignup}>
             <Text style={styles.loginText}>SIGNUP</Text>
           </TouchableOpacity>
     

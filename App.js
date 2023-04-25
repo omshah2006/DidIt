@@ -1,6 +1,6 @@
 import Home from "./Screens/Home";
 import Login from "./Screens/Login";
-import Signup from "./Screens/Signup"
+import Signup from "./Screens/Signup_test"
 import Picture from "./Screens/Picture";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
