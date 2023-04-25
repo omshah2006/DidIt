@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-n
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-
+import { uploadBytesResumable, ref, getStorage } from "firebase/storage"
+import { firebase } from '../firebaseConfig.js';
 
 export default function Add({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -41,8 +42,16 @@ export default function Add({ navigation }) {
       const data = await camera.takePictureAsync(null);
       console.log(data.uri);
       setImageUri(data.uri);
+      const storage = getStorage(); //the storage itself
+      var RandomNumber = Math.floor(Math.random() * 100) + 1 ;
+      const storageRef = ref(storage, RandomNumber.toString() + '.png');
+      const img = await fetch(data.uri);
+      const bytes = await img.blob();
+      uploadBytesResumable(storageRef, bytes).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+      });
     }
-  };
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -55,6 +64,14 @@ export default function Add({ navigation }) {
     console.log(result);
     if (!result.canceled) {
       setImageUri(result.uri);
+      const storage = getStorage(); //the storage itself
+      const ref = ref(storage, 'image.jpg'); //how the image will be addressed inside the storage
+
+      //convert image to array of bytes
+      const img = await fetch(result.uri);
+      const bytes = await img.blob();
+
+      await uploadBytes(ref, bytes); //upload images
     }
   };
   
