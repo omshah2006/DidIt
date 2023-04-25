@@ -46,37 +46,33 @@ const LoginScreen = () => {
       style={styles.container}
       behavior="padding"
     >
-      <View style={styles.inputContainer}>
+      <Text style={styles.logo}>Did It</Text>
+      <View style={styles.inputView}>
         <TextInput
-          placeholder="Email"
+          style={styles.inputText}
+          placeholder="Email..." 
+          placeholderTextColor="#003f5c"
           value={email}
           onChangeText={text => setEmail(text)}
-          style={styles.input}
         />
+      </View>
+      <View style={styles.inputView}>
         <TextInput
-          placeholder="Password"
+          secureTextEntry
+          style={styles.inputText}
+          placeholder="Password..." 
+          placeholderTextColor="#003f5c"
           value={password}
           onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
         />
       </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
+        <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleLogin}>
+          <Text style={styles.loginText}>LOGIN</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
+        <TouchableOpacity style={styles.signupBtn} activeOpacity = {0.9} onPress={handleSignUp}>
+          <Text style={styles.loginText}>SIGNUP</Text>
         </TouchableOpacity>
-      </View>
     </KeyboardAvoidingView>
   )
 }
@@ -86,8 +82,56 @@ export default LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo:{
+    fontWeight:"bold",
+    fontSize:50,
+    color:"#fb5b5a",
+    marginBottom:40
+  },
+  inputView:{
+    width:"80%",
+    backgroundColor:"#465881",
+    borderRadius:25,
+    height:50,
+    marginBottom:20,
+    justifyContent:"center",
+    padding:20
+  },
+  inputText:{
+    height:50,
+    color:"white"
+  },
+  forgot:{
+    color:"white",
+    fontSize:11
+  },
+  loginBtn:{
+    width:"80%",
+    backgroundColor:"#fb5b5a",
+    borderRadius:25,
+    height:50,
+    alignItems:"center",
+    justifyContent:"center",
+    marginTop:40,
+    marginBottom:10
+  },
+  signupBtn:{
+    width:"80%",
+    borderRadius:25,
+    height:50,
+    alignItems:"center",
+    justifyContent:"center",
+    marginTop:4,
+    marginBottom:10,
+    borderColor: '#fb5b5a',
+    borderWidth: 2,
+  },
+  loginText:{
+    color:"white"
   },
   inputContainer: {
     width: '80%'
