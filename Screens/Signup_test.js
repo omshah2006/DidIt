@@ -9,20 +9,20 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-//   const navigation = useNavigation()
+  const navigation = useNavigation()
+  const auth = getAuth(firebase)
 
-//   useEffect(() => {
-//     const unsubscribe = auth.onAuthStateChanged(user => {
-//       if (user) {
-//         navigation.replace("Home")
-//       }
-//     })
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigation.replace("Home")
+      }
+    })
 
-//     return unsubscribe
-//   }, [])
+    return unsubscribe
+  }, [])
 
   const handleSignUp = () => {
-    const auth = getAuth(firebase)
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
@@ -37,6 +37,7 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
+        // navigation.navigate("Home")
       })
       .catch(error => alert(error.message))
   }
