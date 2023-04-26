@@ -49,7 +49,7 @@ export default function Add({ navigation }) {
       const bytes = await img.blob();
       
       uploadBytesResumable(storageRef, bytes).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
+        console.log('Uploaded an image!');
       });
     }
   }
@@ -74,7 +74,7 @@ export default function Add({ navigation }) {
       const bytes = await img.blob();
 
       uploadBytesResumable(storageRef, bytes).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
+        console.log('Uploaded an image!');
       });
     }
   };

@@ -37,7 +37,6 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
-        // navigation.navigate("Home")
       })
       .catch(error => alert(error.message))
   }
@@ -47,6 +46,10 @@ const LoginScreen = () => {
       style={styles.container}
       behavior="padding"
     >
+      <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Picture")}>
+          <Text style={styles.buttonText}>Take Picture</Text>
+      </TouchableOpacity>
+
       <Text style={styles.logo}>Did It</Text>
       <View style={styles.inputView}>
         <TextInput
@@ -151,26 +154,19 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
-    backgroundColor: '#0782F9',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
+    backgroundColor: '#fb5b5a',
+    padding: 8,
+    borderRadius: 15,
+    elevation: 2,
+    marginRight: 12,
+    marginLeft: 3,
+    marginBottom: 20,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
 })
