@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { firebase } from '../firebaseConfig.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
@@ -37,47 +37,52 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
+        // navigation.navigate("Home")
       })
       .catch(error => alert(error.message))
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-      <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Picture")}>
-          <Text style={styles.buttonText}>Take Picture</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.logo}>Did It</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Email..." 
-          placeholderTextColor="#003f5c"
-          value={email}
-          onChangeText={text => setEmail(text)}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          secureTextEntry
-          style={styles.inputText}
-          placeholder="Password..." 
-          placeholderTextColor="#003f5c"
-          value={password}
-          onChangeText={text => setPassword(text)}
-        />
-      </View>
-
-        <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleLogin}>
-          <Text style={styles.loginText}>LOGIN</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
+      accessible={false}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
+        <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Picture")}>
+            <Text style={styles.buttonText}>Take Picture</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.signupBtn} activeOpacity = {0.9} onPress={handleSignUp}>
-          <Text style={styles.loginText}>SIGNUP</Text>
-        </TouchableOpacity>
-    </KeyboardAvoidingView>
+
+        <Text style={styles.logo}>Did It</Text>
+
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Email..." 
+            placeholderTextColor="#003f5c"
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            secureTextEntry
+            style={styles.inputText}
+            placeholder="Password..." 
+            placeholderTextColor="#003f5c"
+            value={password}
+            onChangeText={text => setPassword(text)}
+          />
+        </View>
+
+          <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleLogin}>
+            <Text style={styles.loginText}>LOGIN</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.signupBtn} activeOpacity = {0.9} onPress={handleSignUp}>
+            <Text style={styles.loginText}>SIGNUP</Text>
+          </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   )
 }
 
