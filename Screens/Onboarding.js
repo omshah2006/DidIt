@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
 
 export default function Home({navigation }) {
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <View style={styles.container}>
-      <Button 
+      {/* <Button 
         style={styles.Button}
-        title="Home - take a picture"
+        title="Onboarding"
         onPress={() => navigation.navigate("Picture", { language: "english" })}
-      />
-      <Text style={styles.logo}>Did It</Text>
+      /> */}
+      <Text style={styles.logo}>Onboarding</Text>
       <View style={styles.inputView}>
         <TextInput  
           style={styles.inputText}
           placeholder="Name..." 
           placeholderTextColor="#0a3e57"
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={text => setName(text)}
         />
       </View>
       <View style={styles.inputView}>

@@ -12,21 +12,26 @@ const LoginScreen = () => {
   const navigation = useNavigation()
   const auth = getAuth(firebase)
 
-  useEffect(() => {
+  const navigateToPostAuth = (isNewUser) => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.replace("Home")
+        if (isNewUser) {
+          navigation.replace("Onboarding")
+        } else {
+          navigation.replace("Home")
+        }
       }
     })
 
     return unsubscribe
-  }, [])
+  }
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+        navigateToPostAuth(isNewUser = true);
       })
       .catch(error => alert(error.message))
   }
@@ -37,7 +42,7 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
-        // navigation.navigate("Home")
+        navigateToPostAuth(isNewUser = false);
       })
       .catch(error => alert(error.message))
   }
