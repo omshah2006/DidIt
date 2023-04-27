@@ -18,7 +18,7 @@ export default function Home({navigation }) {
           style={styles.inputText}
           placeholder="Name..." 
           placeholderTextColor="#0a3e57"
-          value={email}
+          value={name}
           onChangeText={text => setName(text)}
         />
       </View>

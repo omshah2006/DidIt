@@ -30,6 +30,7 @@ const LoginScreen = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
+        console.log(user.uid);
         console.log('Registered with:', user.email);
         navigateToPostAuth(isNewUser = true);
       })

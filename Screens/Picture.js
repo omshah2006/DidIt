@@ -46,6 +46,7 @@ export default function Add({ navigation }) {
       const storageRef = ref(storage, RandomNumber.toString() + '.jpg');
 
       const img = await fetch(data.uri);
+      console.log(storageRef)
       const bytes = await img.blob();
       
       uploadBytesResumable(storageRef, bytes).then((snapshot) => {
