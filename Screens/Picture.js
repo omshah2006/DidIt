@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-n
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-import { uploadBytesResumable, ref, getStorage } from "firebase/storage"
+import { uploadBytesResumable, ref, getStorage, getDownloadURL } from "firebase/storage"
 import { firebase } from '../firebaseConfig.js';
 import uuid4 from 'uuid4';
 
@@ -49,9 +49,11 @@ export default function Add({ navigation }) {
       const img = await fetch(data.uri);
       const bytes = await img.blob();
       
-      uploadBytesResumable(storageRef, bytes).then((snapshot) => {
+      await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
         console.log('Uploaded an image!');
       });
+      const url = await getDownloadURL(storageRef);
+      console.log(url)
     }
   }
 
