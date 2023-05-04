@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } fr
 
 export default function Home({navigation }) {
   const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   return (
     <View style={styles.container}>
@@ -24,12 +24,11 @@ export default function Home({navigation }) {
       </View>
       <View style={styles.inputView}>
         <TextInput  
-          secureTextEntry
           style={styles.inputText}
-          placeholder="Password..." 
+          placeholder="Username..." 
           placeholderTextColor="#003f5c"
-          value={password}
-          onChangeText={text => setPassword(text)}
+          value={username}
+          onChangeText={text => setUsername(text)}
         />
       </View>
       <TouchableOpacity activeOpacity={0.9}>

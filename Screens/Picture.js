@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { uploadBytesResumable, ref, getStorage } from "firebase/storage"
 import { firebase } from '../firebaseConfig.js';
+import { getDatabase, ref, set } from "firebase/database"
 import uuid4 from 'uuid4';
 
 export default function Add({ navigation }) {
@@ -38,6 +39,13 @@ export default function Add({ navigation }) {
     permisionFunction();
   }, []);
 
+  const addImageReference = (userId="Mw4QJD3P1OSzQg1K26jhnUQsnT62", image_uuid) => {
+    const db = getDatabase(firebase);
+    set(ref(db, 'users/' + userId + "images"), {
+      image_uuid: image_uuid
+    });
+  }
+
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
@@ -52,6 +60,8 @@ export default function Add({ navigation }) {
       uploadBytesResumable(storageRef, bytes).then((snapshot) => {
         console.log('Uploaded an image!');
       });
+
+      
     }
   }
 
@@ -67,8 +77,8 @@ export default function Add({ navigation }) {
       setImageUri(result.assets[0].uri);
       // console.log(result.uri)
       const storage = getStorage(); //the storage itself
-      var RandomNumber = Math.floor(Math.random() * 100) + 1;
-      const storageRef = ref(storage, RandomNumber.toString() + '.jpg');
+      var uuid = uuid4();
+      const storageRef = ref(storage, uuid + '.jpg');
 
       //convert image to array of bytes
       const img = await fetch(result.assets[0].uri);

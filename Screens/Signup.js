@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { firebase } from '../firebaseConfig.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { getDatabase, ref, set } from "firebase/database"
 
 
 const LoginScreen = () => {
@@ -26,11 +27,20 @@ const LoginScreen = () => {
     return unsubscribe
   }
 
+  const createUser = (userId) => {
+    const db = getDatabase(firebase);
+    set(ref(db, 'users/' + userId), {
+      num_images: 0
+    });
+  }
+
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.uid);
+        createUser(user.uid);
+
         console.log('Registered with:', user.email);
         navigateToPostAuth(isNewUser = true);
       })
