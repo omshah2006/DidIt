@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-n
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-import { uploadBytesResumable, ref, getStorage } from "firebase/storage"
+import { uploadBytesResumable, ref, getStorage, getDownloadURL } from "firebase/storage"
 import { firebase } from '../firebaseConfig.js';
-import { getDatabase, ref, set } from "firebase/database"
+import { getDatabase, ref as dbRef, set, push } from "firebase/database"
 import uuid4 from 'uuid4';
 
 export default function Add({ navigation }) {
@@ -39,10 +39,10 @@ export default function Add({ navigation }) {
     permisionFunction();
   }, []);
 
-  const addImageReference = (userId="Mw4QJD3P1OSzQg1K26jhnUQsnT62", image_uuid) => {
+  const addImageReference = (userId, image_url) => {
     const db = getDatabase(firebase);
-    set(ref(db, 'users/' + userId + "images"), {
-      image_uuid: image_uuid
+    push(dbRef(db, 'users/' + userId + "/" + "images"), {
+      img_url: image_url
     });
   }
 
@@ -57,11 +57,13 @@ export default function Add({ navigation }) {
       const img = await fetch(data.uri);
       const bytes = await img.blob();
       
-      uploadBytesResumable(storageRef, bytes).then((snapshot) => {
+      await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
         console.log('Uploaded an image!');
       });
+      const url = await getDownloadURL(storageRef);
+      console.log(url)
 
-      
+      addImageReference("Mw4QJD3P1OSzQg1K26jhnUQsnT62", url)
     }
   }
 
