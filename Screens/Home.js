@@ -13,6 +13,8 @@ export default function Home({navigation }) {
         onPress={() => navigation.navigate("Picture", { language: "english" })}
       />
       <Text style={styles.logo}>Did It</Text>
+      <View style={styles.cameraContainer}>
+      </View>
       <View style={styles.inputView}>
         <TextInput  
           style={styles.inputText}
@@ -32,14 +34,8 @@ export default function Home({navigation }) {
           onChangeText={text => setPassword(text)}
         />
       </View>
-      <TouchableOpacity activeOpacity={0.9}>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.9}>
-        <Text style={styles.loginText}>Signup</Text>
+        <Text style={styles.loginText}>Pull Picture</Text>
       </TouchableOpacity>
     </View>
   );
@@ -64,6 +60,10 @@ const styles = StyleSheet.create({
   inputText:{
     height:50,
     color:"white"
+  },
+  cameraContainer: {
+    flex: 1,
+    flexDirection: 'row',
   },
   container: {
     flex: 1,

@@ -15,7 +15,6 @@ export default function Home({navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.logo}>Did It</Text>
-       
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
