@@ -2,6 +2,7 @@ import Home from "./Screens/Home";
 import Onboarding from "./Screens/Onboarding"
 import Signup from "./Screens/Signup"
 import Picture from "./Screens/Picture";
+import Photos from "./Screens/Photos"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -29,6 +30,10 @@ export default function App() {
         <Stack.Screen
           name="Picture"
           component={Picture}
+        />
+        <Stack.Screen
+          name="Photos"
+          component={Photos}
         />
    
       </Stack.Navigator>
