@@ -89,6 +89,11 @@ export default function Add({ navigation }) {
       uploadBytesResumable(storageRef, bytes).then((snapshot) => {
         console.log('Uploaded an image!');
       });
+
+      const url = await getDownloadURL(storageRef);
+      console.log(url)
+
+      addImageReference("Mw4QJD3P1OSzQg1K26jhnUQsnT62", url)
     }
   };
   
