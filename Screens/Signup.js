@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions, Image } from 'react-native'
 import { firebase } from '../firebaseConfig.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
@@ -55,11 +55,18 @@ const LoginScreen = () => {
         style={styles.container}
         behavior="padding"
       >
-        <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("Picture")}>
-            <Text style={styles.buttonText}>Take Picture</Text>
+         <Text style={styles.logo}>Did It</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Picture")}>
+        <Image 
+          style={styles.image}
+          source={require('/Users/henrystickel/Desktop/DidItHenry/assets/DidItLogo.png')} 
+        />
+        </TouchableOpacity>
+       
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Photos")}>
+            <Text style={styles.buttonText}>See Photos</Text>
         </TouchableOpacity>
 
-        <Text style={styles.logo}>Did It</Text>
 
         <View style={styles.inputView}>
           <TextInput
@@ -101,11 +108,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo:{
-    fontWeight:"bold",
-    fontSize:50,
-    color:"#fb5b5a",
-    marginBottom:40
+  image: {
+    height: 150, 
+    width: 200,
+    marginTop: 0,
+    marginBottom: 50
   },
   inputView:{
     width:"80%",
@@ -123,6 +130,12 @@ const styles = StyleSheet.create({
   forgot:{
     color:"white",
     fontSize:11
+  },
+  logo:{
+    fontWeight:"bold",
+    fontSize:50,
+    color:"#fb5b5a",
+    marginBottom:40
   },
   loginBtn:{
     width:"80%",
