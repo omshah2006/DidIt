@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button, ScrollView, Dimensions } from 'react-native';
 
 export default function Photos({navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
         <Image 
           style={styles.image}
-          source={require('/Users/henrystickel/Desktop/DidItHenry/assets/DidItLogo.png')} 
+          source={require('../assets/DidItLogo.png')} 
         />
       </ScrollView>
 

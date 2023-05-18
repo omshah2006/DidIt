@@ -69,7 +69,7 @@ const LoginScreen = () => {
         <TouchableOpacity onPress={() => navigation.navigate("Picture")}>
         <Image 
           style={styles.image}
-          source={require('/Users/henrystickel/Desktop/DidItHenry/assets/DidItLogo.png')} 
+          source={require('../assets/DidItLogo.png')} 
         />
         </TouchableOpacity>
        

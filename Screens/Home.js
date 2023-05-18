@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button, Dimensions, ScrollView, StatusBar } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue} from "firebase/database"
 
@@ -9,20 +9,24 @@ export default function Home({navigation }) {
   const [password, setPassword] = useState("");
   const [images, updateImages] = useState("");
 
-  const displayImages = () => {
-    const db = getDatabase(firebase);
-    const uuid = 'Mw4QJD3P1OSzQg1K26jhnUQsnT62'
-    const imagesRef = ref(db, 'users/' + uuid + '/images/');
+  useEffect(() => {
+    const pullImages = () => {
+      const db = getDatabase(firebase);
+      const uuid = 'Mw4QJD3P1OSzQg1K26jhnUQsnT62'
+      const imagesRef = ref(db, 'users/' + uuid + '/images/');
 
-    onValue(imagesRef, (snapshot) => {
-      const data = snapshot.val();
-      updateImages(data)
-      console.log(Object.keys(data))
-    });
-  }
+      onValue(imagesRef, (snapshot) => {
+        const data = snapshot.val();
+        updateImages(data)
+        console.log(Object.keys(data))
+      });
+    }
 
-  displayImages()
-  testImage = images[0]["img_url"]
+    pullImages()
+  }, [])
+
+
+  testImage = images
   console.log(testImage)
 
   return (
@@ -30,27 +34,27 @@ export default function Home({navigation }) {
       <ScrollView style={styles.scrollContainer}>
         <Image 
           style={styles.image}
-          source={require('/Users/omshah/VSCProjects/DidIt/assets/henryandom3.jpg')} 
+          source={require('../assets/henryandom3.jpg')} 
         />
         <Image 
           style={styles.image}
-          source={require('/Users/omshah/VSCProjects/DidIt/assets/henryandom3.jpg')} 
+          source={require('../assets/henryandom3.jpg')} 
         />
         <Image 
           style={styles.image}
-          source={require('/Users/omshah/VSCProjects/DidIt/assets/henryandom3.jpg')} 
+          source={require('../assets/henryandom3.jpg')} 
         />
         <Image 
           style={styles.image}
-          source={require('/Users/omshah/VSCProjects/DidIt/assets/henryandom3.jpg')} 
+          source={require('../assets/henryandom3.jpg')} 
         />
         <Image 
           style={styles.image}
-          source={require('/Users/omshah/VSCProjects/DidIt/assets/henryandom3.jpg')} 
+          source={require('../assets/henryandom3.jpg')} 
         />
         <Image 
           style={styles.image}
-          source={require('/Users/omshah/VSCProjects/DidIt/assets/henryandom3.jpg')} 
+          source={require('../assets/henryandom3.jpg')} 
         />
       </ScrollView>
 
