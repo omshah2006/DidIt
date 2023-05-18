@@ -18,7 +18,7 @@ export default function Home({navigation }) {
       onValue(imagesRef, (snapshot) => {
         const data = snapshot.val();
         updateImages(data)
-        console.log(Object.keys(data))
+        // console.log(Object.keys(data))
       });
     }
 
@@ -27,14 +27,18 @@ export default function Home({navigation }) {
 
 
   testImage = images
-  console.log(testImage)
+  imageKeys = Object.keys(testImage)
+  sampleImageURL = testImage[imageKeys[0]]
+  console.log(sampleImageURL)
+  // console.log(sampleImageURL)
+
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
         <Image 
           style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
+          source={sampleImageURL["img_url"]} 
         />
         <Image 
           style={styles.image}
