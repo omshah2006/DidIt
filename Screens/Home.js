@@ -39,6 +39,7 @@ export default function Home({navigation }) {
         <Image 
           style={styles.image}
           source={sampleImageURL["img_url"]} 
+          // source={sampleImageURL} 
         />
         <Image 
           style={styles.image}
