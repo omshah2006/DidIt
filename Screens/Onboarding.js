@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
 
-export default function Home({navigation }) {
+export default function Home({ navigation }) {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
 
@@ -31,14 +31,8 @@ export default function Home({navigation }) {
           onChangeText={text => setUsername(text)}
         />
       </View>
-      <TouchableOpacity activeOpacity={0.9}>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.9}>
-        <Text style={styles.loginText}>Signup</Text>
+        <Text style={styles.loginText}>Next</Text>
       </TouchableOpacity>
     </View>
   );
@@ -66,7 +60,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFD700',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
     justifyContent: 'center',
   },

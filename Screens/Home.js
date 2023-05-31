@@ -15,7 +15,7 @@ const displayImages = (images) => {
     );
 };
 
-export default function Home({navigation }) {
+export default function Home({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [images, updateImages] = useState({"sample" : {"img_url": "https://firebasestorage.googleapis.com/v0/b/did-it-237f2.appspot.com/o/50c14800-29d5-47fd-9716-4a6dbf6e10d7%3Foffset%3D0%26size%3D0.jpg?alt=media&token=e3becb90-a5ce-4644-a0db-c26e10e898fc"}});
@@ -34,12 +34,6 @@ export default function Home({navigation }) {
 
     pullImages()
   }, [])
-
-
-  // imageKeys = Object.keys(images)
-  // sampleImageURL = images[imageKeys[0]]
-
-
 
 
   return (
