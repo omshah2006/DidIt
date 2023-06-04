@@ -62,9 +62,17 @@ export default function Add({ navigation }) {
     })
   }
 
+  const flipCamera = () => {
+    setType(
+      type === Camera.Constants.Type.back
+        ? Camera.Constants.Type.front
+        : Camera.Constants.Type.back
+    );
+  };
+
   // const takePicture = async () => {
   //   if (camera) {
-  //     const data = await camera.takePictureAsync(null);
+  //     const data = await camera.takePictureAsync({quality: 0.1});
   //     setImageUri(data.uri);
   //     const storage = getStorage(); //the storage itself
   //     var uuid = uuid4();
@@ -74,21 +82,12 @@ export default function Add({ navigation }) {
   //     const bytes = await img.blob();
       
   //     await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
-  //       console.log('Uploaded an image!');
-  //     });
 
-  //     await getDownloadURL(storageRef)
-  //     .then(url => {
-  //       console.log(url)
-  //       addImageReference(url)
-  //     });
-  //   }
-  // }
 
   const takePicture = async () => {
     if (camera) {
       try {
-        const data = await camera.takePictureAsync(null);
+        const data = await camera.takePictureAsync({quality: 0.1});
         setImageUri(data.uri);
         const storage = getStorage(); // the storage itself
         const uuid = uuid4();
@@ -142,13 +141,6 @@ export default function Add({ navigation }) {
   };
   
 
-  const flipCamera = () => {
-    setType(
-      type === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back
-    );
-  };
 
   const saveImage = async () => {
     if (Platform.OS === 'ios') {
@@ -168,67 +160,106 @@ export default function Add({ navigation }) {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.cameraContainer}>
+    return (
+      <View style={styles.container}>
+        <View style={styles.cameraContainer}>
         <Camera
           ref={(ref) => setCamera(ref)}
           style={styles.fixedRatio}
           type={type}
           ratio={'1:1'}
         />
+        </View>
+        <View style={styles.container2}>
+        <View style={styles.buttons}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Signup")}>
+          <Image 
+          style={styles.image}
+          source={require('../assets/back.png')} 
+        />
+        </TouchableOpacity>
+        </View>
+        <View style={styles.buttons}>
+        <View style={styles.button}>
+          <View style={styles.buttonInner}>
+          <TouchableOpacity style={styles.buttonCircle}  onPress={takePicture}/>
+          </View>
+          </View>
+        </View>
+        <View style={styles.buttons}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={flipCamera}>
+          <Image 
+          style={styles.image}
+          source={require('../assets/flipCamera.png')} 
+        />
+        </TouchableOpacity>
+        </View>
+        </View>
       </View>
+    );
+  };
+  
+  const styles = StyleSheet.create({
+    buttons: {
+      flex: 3,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    container: {
+      flexDirection: 'column',
+    },
+    container2: {
+      flex: 1, 
+      flexDirection: 'row',
+      backgroundColor: 'black',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    cameraContainer: {
+      flex: 4,
+    },
+    fixedRatio: {
+      aspectRatio: 0.5,
+    },
+    container: {
+      flex: 1,
+    },
+    button: {
+    width: 82,
+    height: 82,
+    borderRadius: 41,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#000',
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={takePicture}>
-          <Text style={styles.buttonText}>Take Picture</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <Text style={styles.buttonText}>Gallery</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={saveImage}>
-          <Text style={styles.buttonText}>Save to Camera Roll</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={flipCamera}>
-          <Text style={styles.buttonText}>Flip Camera</Text>
-        </TouchableOpacity>
-      </View>
-
-      {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
-    </View>
-  );
-}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
   },
-  cameraContainer: {
-    flex: 1,
-    flexDirection: 'row',
+  image: {
+    width: 45,
+    height: 45,
+    marginLeft: 7,
+    marginTop: 7,
   },
-  fixedRatio: {
-    flex: 1,
-    aspectRatio: 1,
+  buttonInner: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 0,
-    marginBottom: 10,
+  buttonCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#fff',
   },
-  button: {
-    backgroundColor: '#fb5b5a',
-    padding: 3,
-    borderRadius: 2,
-    elevation: 2,
-    marginRight: 12,
-    marginLeft: 3,
+  buttonCircle2: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'white',
   },
-  buttonText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    alignSelf: 'center',
-    textTransform: 'uppercase',
-  },
-});
+  });
