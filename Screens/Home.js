@@ -29,7 +29,7 @@ export default function Home({ navigation }) {
           if (Object.hasOwnProperty.call(users, uuid)) {
             const imagesRef = ref(db, 'users/' + uuid + '/images/');
 
-            onValue(imagesRef, (snapshot) => {
+            onValue(imagesRef, (snapshot) => {, .
               const images = snapshot.val();
 
               if (images) {
