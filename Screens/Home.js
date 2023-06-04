@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from "firebase/database"
 
@@ -29,7 +29,7 @@ export default function Home({ navigation }) {
           if (Object.hasOwnProperty.call(users, uuid)) {
             const imagesRef = ref(db, 'users/' + uuid + '/images/');
 
-            onValue(imagesRef, (snapshot) => {, .
+            onValue(imagesRef, (snapshot) => {
               const images = snapshot.val();
 
               if (images) {
@@ -57,6 +57,12 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate("Picture")}>
+        <Image 
+          style={styles.logo}
+          source={require('../assets/DidItLogo.png')} 
+        />
+      </TouchableOpacity>
       <ScrollView style={styles.scrollContainer}>
         {displayImages(images)}
       </ScrollView>
@@ -80,5 +86,11 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     marginTop: 50,
     marginBottom: 50
-  }
+  },
+  logo: {
+    height: 150, 
+    width: 200,
+    marginTop: 60,
+    marginBottom: 0
+  },
 });
