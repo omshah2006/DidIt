@@ -57,6 +57,12 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
+      <Image 
+          style={styles.logo}
+          source={require('../assets/DidItLogo.png')} 
+      />
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Picture")}>
         <Image 
           style={styles.logo}
