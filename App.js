@@ -3,6 +3,7 @@ import Onboarding from "./Screens/Onboarding"
 import Signup from "./Screens/Signup"
 import Picture from "./Screens/Picture";
 import Photos from "./Screens/Photos"
+import Account from "./Screens/Account"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
