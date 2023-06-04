@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from "firebase/database"
 
@@ -59,18 +59,12 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-      <Image 
-          style={styles.logo}
-          source={require('../assets/DidItLogo.png')} 
-      />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Picture")}>
-        <Image 
-          style={styles.logo}
-          source={require('../assets/DidItLogo.png')} 
-        />
-      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
+            <Text style={styles.buttonText}>Your Photos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
+            <Text style={styles.buttonText}>Take Picture</Text>
+        </TouchableOpacity>
       <ScrollView style={styles.scrollContainer}>
         {displayImages(images)}
       </ScrollView>
@@ -100,5 +94,22 @@ const styles = StyleSheet.create({
     width: 200,
     marginTop: 60,
     marginBottom: 0
+  },
+  button: {
+    backgroundColor: '#fb5b5a',
+    padding: 10,
+    borderRadius: 15,
+    elevation: 10,
+    marginRight: 12,
+    marginLeft: 3,
+    marginBottom: 40,
+    marginTop: 50,
+  },
+  buttonText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
 });
