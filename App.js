@@ -36,7 +36,10 @@ export default function App() {
           name="Photos"
           component={Photos}
         />
-   
+        <Stack.Screen
+          name="Account"
+          component={Account}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
