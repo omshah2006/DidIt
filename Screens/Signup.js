@@ -107,7 +107,7 @@ const LoginScreen = () => {
         behavior="padding"
       >
          <Text style={styles.logo}>Did It</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Picture")}>
+        <TouchableOpacity>
         <Image 
           style={styles.image}
           source={require('../assets/DidItLogo.png')} 

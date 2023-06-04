@@ -40,16 +40,16 @@ export default function Home({ navigation }) {
                 }
               }
 
-              updateImages(allImages);
             });
           }
         }
+        updateImages(allImages);
       });
     };
 
     const updateImages = (allImages) => {
       setImages(allImages);
-      console.log(allImages);
+      // console.log(allImages);
     };
 
     pullImages();
