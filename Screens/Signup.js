@@ -4,7 +4,32 @@ import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, T
 import { firebase } from '../firebaseConfig.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { getDatabase, ref, set } from "firebase/database"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const clearAsyncStorage = async () => {
+  saveUUID(null)
+}
+// Comment out below if you want to start session from login page
+clearAsyncStorage()
+
+const saveUUID = async (value) => {
+  try {
+    await AsyncStorage.setItem('@session_id', value)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const getUUID = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@session_id')
+    if(value !== null) {
+      return value
+    }
+  } catch(e) {
+    console.log(e)
+  }
+}
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -12,6 +37,17 @@ const LoginScreen = () => {
 
   const navigation = useNavigation()
   const auth = getAuth(firebase)
+
+  const checkSession = () => {
+    getUUID()
+    .then(uuid => {
+      if (uuid !== null) {
+        // navigation.replace("Home")
+      }
+    })
+  }
+
+  checkSession()
 
   const navigateToPostAuth = (isNewUser) => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -38,9 +74,8 @@ const LoginScreen = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
-        console.log(user.uid);
         createUser(user.uid);
-
+        saveUUID(user.uid)
         console.log('Registered with:', user.email);
         navigateToPostAuth(isNewUser = true);
       })
@@ -52,6 +87,7 @@ const LoginScreen = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
+        saveUUID(user.uid)
         console.log('Logged in with:', user.email);
         navigateToPostAuth(isNewUser = false);
       })

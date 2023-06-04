@@ -18,6 +18,9 @@ export default {
       "**/*"
     ],
     "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "bundleIdentifier": "com.didit.didit",
       "supportsTablet": true,
       "infoPlist": {
