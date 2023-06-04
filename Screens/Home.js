@@ -1,63 +1,71 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button, Dimensions, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
-import { getDatabase, ref, onValue} from "firebase/database"
+import { getDatabase, ref, onValue } from "firebase/database"
 
+export default function Home({ navigation }) {
+  const [images, setImages] = useState([]);
 
-export default function Home({navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [images, updateImages] = useState("");
+  const displayImages = (images) => {
+    return (
+      <View>
+        {images.map((value, index) => (
+          <Image key={index} source={{ uri: value.img_url }} style={styles.image} />
+        ))}
+      </View>
+    );
+  };
 
   useEffect(() => {
     const pullImages = () => {
       const db = getDatabase(firebase);
-      const uuid = 'Mw4QJD3P1OSzQg1K26jhnUQsnT62'
-      const imagesRef = ref(db, 'users/' + uuid + '/images/');
+      const usersRef = ref(db, 'users/');
 
-      onValue(imagesRef, (snapshot) => {
-        const data = snapshot.val();
-        updateImages(data)
-        console.log(Object.keys(data))
+      onValue(usersRef, (snapshot) => {
+        const users = snapshot.val();
+        const allImages = [];
+
+        for (const uuid in users) {
+          if (Object.hasOwnProperty.call(users, uuid)) {
+            const imagesRef = ref(db, 'users/' + uuid + '/images/');
+
+            onValue(imagesRef, (snapshot) => {
+              const images = snapshot.val();
+
+              if (images) {
+                for (const imageKey in images) {
+                  if (Object.hasOwnProperty.call(images, imageKey)) {
+                    allImages.push(images[imageKey]);
+                  }
+                }
+              }
+
+            });
+          }
+        }
+        updateImages(allImages);
       });
-    }
+    };
 
-    pullImages()
-  }, [])
+    const updateImages = (allImages) => {
+      setImages(allImages);
+      // console.log(allImages);
+    };
 
-
-  testImage = images
-  console.log(testImage)
+    pullImages();
+  }, []);
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
+            <Text style={styles.buttonText}>Your Photos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
+            <Text style={styles.buttonText}>Take Picture</Text>
+        </TouchableOpacity>
       <ScrollView style={styles.scrollContainer}>
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
+        {displayImages(images)}
       </ScrollView>
-
       <StatusBar style="auto" />
     </View>
   );
@@ -66,7 +74,6 @@ export default function Home({navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     backgroundColor: '#FFFDD0',
     alignItems: 'center',
     justifyContent: 'center',
@@ -75,98 +82,32 @@ const styles = StyleSheet.create({
     showsVerticalScrollIndicator: false,
   },
   image: {
-    height: 400, 
+    height: 400,
     width: Dimensions.get('window').width,
     marginTop: 50,
     marginBottom: 50
-  }
+  },
+  logo: {
+    height: 150, 
+    width: 200,
+    marginTop: 60,
+    marginBottom: 0
+  },
+  button: {
+    backgroundColor: '#fb5b5a',
+    padding: 10,
+    borderRadius: 15,
+    elevation: 10,
+    marginRight: 12,
+    marginLeft: 3,
+    marginBottom: 40,
+    marginTop: 50,
+  },
+  buttonText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
 });
-
-
-
-//   return (
-//     <View style={styles.container}>
-//       <Button 
-//         style={styles.Button}
-//         title="Home"
-//         onPress={() => navigation.navigate("Picture", { language: "english" })}
-//       />
-//       {/* <View style={styles.cameraContainer}>
-//       </View> */}
-//       {/* <View style={styles.inputView}>
-//         <TextInput  
-//           style={styles.inputText}
-//           placeholder="Name..." 
-//           placeholderTextColor="#0a3e57"
-//           value={email}
-//           onChangeText={text => setEmail(text)}
-//         />
-//       </View>
-//       <View style={styles.inputView}>
-//         <TextInput  
-//           secureTextEntry
-//           style={styles.inputText}
-//           placeholder="Password..." 
-//           placeholderTextColor="#003f5c"
-//           value={password}
-//           onChangeText={text => setPassword(text)}
-//         />
-//       </View>
-//       <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9}>
-//         <Text style={styles.loginText}>Pull Picture</Text>
-//       </TouchableOpacity> */}
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   logo:{
-//     fontWeight:"bold",
-//     fontSize:50,
-//     color:"#fb5b5a",
-//     marginBottom:40
-//   },
-//   inputView:{
-//     width:"80%",
-//     backgroundColor:"#465881",
-//     borderRadius:25,
-//     height:50,
-//     marginBottom:20,
-//     justifyContent:"center",
-//     padding:20
-//   },
-//   inputText:{
-//     height:50,
-//     color:"white"
-//   },
-//   cameraContainer: {
-//     flex: 1,
-//     flexDirection: 'row',
-//   },
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#FFD700',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   forgot:{
-//     color:"white",
-//     fontSize:11
-//   },
-//   loginText:{
-//     color:"white"
-//   },
-//   loginBtn:{
-//     width:"80%",
-//     backgroundColor:"#fb5b5a",
-//     borderRadius:25,
-//     height:50,
-//     alignItems:"center",
-//     justifyContent:"center",
-//     marginTop:40,
-//     marginBottom:10
-//   },
-//   Button:{
-//     color:"black"
-//   },
-// });

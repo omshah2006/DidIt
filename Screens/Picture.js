@@ -6,8 +6,8 @@ import * as MediaLibrary from 'expo-media-library';
 import { uploadBytesResumable, ref, getStorage, getDownloadURL } from "firebase/storage"
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref as dbRef, set, push } from "firebase/database"
-import uuid4 from 'uuid4'
-
+import uuid4 from 'uuid4';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Add({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -16,6 +16,17 @@ export default function Add({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+
+  const getUUID = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@session_id')
+      if(value !== null) {
+        return value
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
 
   const permisionFunction = async () => {
     // here is how you can get the camera permission
@@ -40,11 +51,15 @@ export default function Add({ navigation }) {
     permisionFunction();
   }, []);
 
-  const addImageReference = (userId, image_url) => {
-    const db = getDatabase(firebase);
-    push(dbRef(db, 'users/' + userId + "/" + "images"), {
-      img_url: image_url
-    });
+  const addImageReference = async (image_url) => {
+    getUUID()
+    .then(uuid => {
+      // console.log("UseriD: " + uuid)
+      const db = getDatabase(firebase);
+      push(dbRef(db, 'users/' + uuid + "/" + "images"), {
+        img_url: image_url
+      });
+    })
   }
 
   const flipCamera = () => {
@@ -55,26 +70,45 @@ export default function Add({ navigation }) {
     );
   };
 
+  // const takePicture = async () => {
+  //   if (camera) {
+  //     const data = await camera.takePictureAsync({quality: 0.1});
+  //     setImageUri(data.uri);
+  //     const storage = getStorage(); //the storage itself
+  //     var uuid = uuid4();
+  //     const storageRef = ref(storage, uuid + '.jpg');
+
+  //     const img = await fetch(data.uri);
+  //     const bytes = await img.blob();
+      
+  //     await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
+
+
   const takePicture = async () => {
     if (camera) {
-      const data = await camera.takePictureAsync({quality: 0.1});
-      setImageUri(data.uri);
-      const storage = getStorage(); //the storage itself
-      var uuid = uuid4();
-      const storageRef = ref(storage, uuid + '.jpg');
-
-      const img = await fetch(data.uri);
-      const bytes = await img.blob();
-      
-      await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
+      try {
+        const data = await camera.takePictureAsync({quality: 0.1});
+        setImageUri(data.uri);
+        const storage = getStorage(); // the storage itself
+        const uuid = uuid4();
+        const storageRef = ref(storage, uuid + '.jpg');
+  
+        const img = await fetch(data.uri);
+        const bytes = await img.blob();
+  
+        const uploadTask = uploadBytesResumable(storageRef, bytes);
+        const snapshot = await uploadTask;
         console.log('Uploaded an image!');
-      });
-      const url = await getDownloadURL(storageRef);
-      console.log(url)
-
-      addImageReference("Mw4QJD3P1OSzQg1K26jhnUQsnT62", url)
+  
+        const url = await getDownloadURL(snapshot.ref);
+        console.log(url);
+        addImageReference(url);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
     }
-  }
+  };
+  
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -102,7 +136,7 @@ export default function Add({ navigation }) {
       const url = await getDownloadURL(storageRef);
       console.log(url)
 
-      addImageReference("Mw4QJD3P1OSzQg1K26jhnUQsnT62", url)
+      addImageReference(url)
     }
   };
   

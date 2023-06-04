@@ -1,9 +1,42 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDatabase, ref, set } from "firebase/database"
+import { firebase } from '../firebaseConfig.js';
 
-export default function Home({navigation }) {
+
+export default function Home({ navigation }) {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+
+  const getUUID = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@session_id')
+      if(value !== null) {
+        return value
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  const saveUserInfo = (name, username) => {
+    getUUID()
+      .then(uuid => {
+        console.log(uuid)
+        const db = getDatabase(firebase);
+        set(ref(db, 'users/' + uuid + '/info'), {
+          name: name,
+          username: username
+        });
+      })
+  }
+
+  const handleOnboarding = () => {
+    console.log("HEY");
+    saveUserInfo(name, username);
+    navigation.replace("Home");
+  }
 
   return (
     <View style={styles.container}>
@@ -31,14 +64,8 @@ export default function Home({navigation }) {
           onChangeText={text => setUsername(text)}
         />
       </View>
-      <TouchableOpacity activeOpacity={0.9}>
-        <Text style={styles.forgot}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.9}>
-        <Text style={styles.loginText}>Signup</Text>
+      <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9} onPress={handleOnboarding}>
+        <Text style={styles.loginText}>Next</Text>
       </TouchableOpacity>
     </View>
   );
@@ -66,7 +93,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFD700',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
     justifyContent: 'center',
   },
