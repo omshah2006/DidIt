@@ -14,7 +14,7 @@ const resetAsyncStorage = async () => {
   }
 }
 // Comment out below if you want to start session from login page
-// resetAsyncStorage()
+resetAsyncStorage()
 
 const saveUUID = async (value) => {
   try {
@@ -114,9 +114,9 @@ const LoginScreen = () => {
         />
         </TouchableOpacity>
        
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Photos")}>
+        {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Photos")}>
             <Text style={styles.buttonText}>See Photos</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
 
         <View style={styles.inputView}>
