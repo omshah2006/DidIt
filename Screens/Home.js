@@ -10,6 +10,7 @@ export default function Home({ navigation }) {
     return (
       <View>
         {images.map((value, index) => (
+          // <Text></Text>
           <Image key={index} source={{ uri: value.img_url }} style={styles.image} />
         ))}
       </View>
@@ -44,6 +45,7 @@ export default function Home({ navigation }) {
           }
         }
         updateImages(allImages);
+        console.log(allImages)
       });
     };
 
