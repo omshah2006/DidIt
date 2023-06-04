@@ -6,6 +6,7 @@ import { getDatabase, ref, onValue} from "firebase/database"
 
 const displayImages = (images) => {
   imageKeys = Object.keys(images)
+  console.log("Displaying images...")
   return (
       <View>
         {Object.entries(images).map(([key, value]) => (
@@ -27,8 +28,10 @@ export default function Home({ navigation }) {
       const imagesRef = ref(db, 'users/' + uuid + '/images/');
 
       onValue(imagesRef, (snapshot) => {
+        console.log("Pulling images from cloud")
         const data = snapshot.val();
         updateImages(data)
+        console.log("Images pulled from cloud")
       });
     }
 

@@ -6,11 +6,15 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { getDatabase, ref, set } from "firebase/database"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const clearAsyncStorage = async () => {
-  saveUUID(null)
+const resetAsyncStorage = async () => {
+  const asyncStorageKeys = await AsyncStorage.getAllKeys();
+  console.log(asyncStorageKeys)
+  if (asyncStorageKeys.length > 0) {
+    await AsyncStorage.multiRemove(asyncStorageKeys);
+  }
 }
 // Comment out below if you want to start session from login page
-clearAsyncStorage()
+// resetAsyncStorage()
 
 const saveUUID = async (value) => {
   try {
@@ -41,12 +45,13 @@ const LoginScreen = () => {
   const checkSession = () => {
     getUUID()
     .then(uuid => {
-      if (uuid !== null) {
-        // navigation.replace("Home")
+      if (uuid !== undefined) {
+        console.log("nagivation rerouted" + uuid)
+        navigation.replace("Home")
       }
     })
   }
-
+  
   checkSession()
 
   const navigateToPostAuth = (isNewUser) => {
