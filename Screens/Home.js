@@ -74,7 +74,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFDD0',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -82,10 +82,12 @@ const styles = StyleSheet.create({
     showsVerticalScrollIndicator: false,
   },
   image: {
-    height: 400,
-    width: Dimensions.get('window').width,
+    height: 650,
+    width: 361,
     marginTop: 50,
-    marginBottom: 50
+    marginBottom: 50,
+    borderColor: '#000000',
+    borderWidth: 2,
   },
   logo: {
     height: 150, 
@@ -100,11 +102,11 @@ const styles = StyleSheet.create({
     elevation: 10,
     marginRight: 12,
     marginLeft: 3,
-    marginBottom: 40,
-    marginTop: 50,
+    marginBottom: 10,
+    marginTop:45,
   },
   buttonText: {
-    fontSize: 25,
+    fontSize: 12,
     fontWeight: 'bold',
     color: '#FFFFFF',
     alignSelf: 'center',
