@@ -61,6 +61,9 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("setGoal")}>
+          <Text style={styles.buttonText}>Set Goal</Text>
+        </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
             <Text style={styles.buttonText}>Your Photos</Text>
         </TouchableOpacity>

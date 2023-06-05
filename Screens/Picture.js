@@ -172,7 +172,7 @@ export default function Add({ navigation }) {
         </View>
         <View style={styles.container2}>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Signup")}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Home")}>
           <Image 
           style={styles.image}
           source={require('../assets/back.png')} 
