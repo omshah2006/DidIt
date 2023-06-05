@@ -6,15 +6,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const displayImages = (images) => {
-  imageKeys = Object.keys(images)
-  console.log("Displaying images...")
-  return (
+  console.log(images)
+  if (!images) {
+    return (
+      <View>
+        <Text>You have no images dumbass</Text>
+      </View>
+    );
+  } else {
+    imageKeys = Object.keys(images)
+    console.log("Displaying images...")
+    return (
       <View>
         {Object.entries(images).map(([key, value]) => (
           <Image key={key} source={{ uri: value.img_url }} style={styles.image} />
         ))}
       </View>
     );
+  }
 };
 
 const getUUID = async () => {
@@ -31,7 +40,8 @@ const getUUID = async () => {
 export default function Account({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [images, updateImages] = useState({"sample" : {"img_url": "https://firebasestorage.googleapis.com/v0/b/did-it-237f2.appspot.com/o/50c14800-29d5-47fd-9716-4a6dbf6e10d7%3Foffset%3D0%26size%3D0.jpg?alt=media&token=e3becb90-a5ce-4644-a0db-c26e10e898fc"}});
+  // const [images, updateImages] = useState({"sample" : {"img_url": "https://firebasestorage.googleapis.com/v0/b/did-it-237f2.appspot.com/o/50c14800-29d5-47fd-9716-4a6dbf6e10d7%3Foffset%3D0%26size%3D0.jpg?alt=media&token=e3becb90-a5ce-4644-a0db-c26e10e898fc"}});
+  const [images, updateImages] = useState([])
 
   useEffect(() => {
     const pullImages = () => {
@@ -56,32 +66,6 @@ export default function Account({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        {/* <Image 
-          style={styles.image}
-          source={{uri: sampleImageURL['img_url']}} 
-          // source={sampleImageURL} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        /> */}
-
         {displayImages(images)}
       </ScrollView>
 

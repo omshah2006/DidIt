@@ -7,14 +7,24 @@ export default function Home({ navigation }) {
   const [images, setImages] = useState([]);
 
   const displayImages = (images) => {
-    return (
-      <View>
-        {images.map((value, index) => (
-          // <Text></Text>
-          <Image key={index} source={{ uri: value.img_url }} style={styles.image} />
-        ))}
-      </View>
-    );
+    // console.log(images)
+    if (!images) {
+      return (
+        <View>
+          <Text>You have no images dumbass</Text>
+        </View>
+      );
+    } else {
+      imageKeys = Object.keys(images)
+      console.log("Displaying images...")
+      return (
+        <View>
+          {Object.entries(images).map(([key, value]) => (
+            <Image key={key} source={{ uri: value.img_url }} style={styles.image} />
+          ))}
+        </View>
+      );
+    }
   };
 
   useEffect(() => {
@@ -29,6 +39,7 @@ export default function Home({ navigation }) {
         for (const uuid in users) {
           if (Object.hasOwnProperty.call(users, uuid)) {
             const imagesRef = ref(db, 'users/' + uuid + '/images/');
+            const usernameRef = ref(db, 'users/' + uuid + '/info/');
 
             onValue(imagesRef, (snapshot) => {
               const images = snapshot.val();
