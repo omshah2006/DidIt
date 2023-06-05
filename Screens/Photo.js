@@ -9,6 +9,7 @@ import { getDatabase, ref as dbRef, set, push, get, onValue, once} from "firebas
 import uuid4 from 'uuid4';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment'
+import * as Haptics from 'expo-haptics';
 
 export default function Subtract({ navigation, route }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -115,6 +116,10 @@ export default function Subtract({ navigation, route }) {
       
   //     await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
 
+  const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+  };
+  
 
   const send = async () => {
       try {
@@ -203,7 +208,7 @@ export default function Subtract({ navigation, route }) {
         </View>
 
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={send}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={handlePress}>
           <Image 
           style={styles.image}
           source={require('../assets/sned.png')} 
