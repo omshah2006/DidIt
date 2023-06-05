@@ -100,7 +100,10 @@ export default function Subtract({ navigation, route }) {
   
         const url = await getDownloadURL(snapshot.ref);
         console.log(url);
-        addImageReference(url);
+        addImageReference(url)
+        .then(
+          navigation.navigate("Home")
+        );
       } 
       catch (error) {
         console.error('Error uploading image:', error);
