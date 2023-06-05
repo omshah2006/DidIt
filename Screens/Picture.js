@@ -212,7 +212,7 @@ export default function Add({ navigation }) {
     container2: {
       flex: 1, 
       flexDirection: 'row',
-      backgroundColor: 'black',
+      backgroundColor: 'transparent',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -220,7 +220,7 @@ export default function Add({ navigation }) {
       flex: 4,
     },
     fixedRatio: {
-      aspectRatio: 0.5,
+      aspectRatio: 0.4,
     },
     container: {
       flex: 1,
@@ -229,7 +229,7 @@ export default function Add({ navigation }) {
     width: 82,
     height: 82,
     borderRadius: 41,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
@@ -254,7 +254,7 @@ export default function Add({ navigation }) {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   buttonCircle2: {
     width: 60,
