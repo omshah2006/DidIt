@@ -1,90 +1,99 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button, Dimensions, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
-import { getDatabase, ref, onValue} from "firebase/database"
+import { getDatabase, ref, onValue } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-const displayImages = (images) => {
-  imageKeys = Object.keys(images)
-  console.log("Displaying images...")
-  return (
-      <View>
-        {Object.entries(images).map(([key, value]) => (
-          <Image key={key} source={{ uri: value.img_url }} style={styles.image} />
-        ))}
-      </View>
-    );
+const getUUID = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@session_id');
+    if (value !== null) {
+      return value;
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-const getUUID = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@session_id')
-      if(value !== null) {
-        return value
-      }
-    } catch(e) {
-      console.log(e)
-    }
-  }
+const displayUserNames = () => {
+  const [username, setUsername] = useState(''); // Introduce state variable 'username'
+  const db = getDatabase(firebase);
+
+  useEffect(() => {
+    getUUID().then((uuid) => {
+      const usernameref = ref(db, 'users/' + uuid + '/info/username');
+      onValue(usernameref, (snapshot) => {
+        console.log('Username pulling from cloud');
+        const data = snapshot.val();
+        setUsername(data); // Update 'username' state with the retrieved value
+        console.log('Username pulled from cloud');
+      });
+    });
+  }, []);
+
+  return (
+    <View>
+      <TouchableOpacity style={styles.button}>
+        <View>
+          <Text style={styles.buttonText}>{username}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const displayImages = (images) => {
+  const imageKeys = Object.keys(images);
+  console.log('Displaying images...');
+
+  const rows = imageKeys.map((key, index) => {
+    const value = images[key];
+    return (
+      <View key={`row_${index}`} style={styles.row}>
+        <Text style={styles.username}>{value.username}</Text>
+        <Text style={styles.moment}>{value.moment}</Text>
+        <Image source={{ uri: value.img_url }} style={styles.image} />
+      </View>
+    );
+  });
+
+  return <View style={styles.images}>{rows}</View>;
+};
 
 export default function Account({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [images, updateImages] = useState({"sample" : {"img_url": "https://firebasestorage.googleapis.com/v0/b/did-it-237f2.appspot.com/o/50c14800-29d5-47fd-9716-4a6dbf6e10d7%3Foffset%3D0%26size%3D0.jpg?alt=media&token=e3becb90-a5ce-4644-a0db-c26e10e898fc"}});
+  const [images, updateImages] = useState({
+    sample: {
+      img_url:
+        'https://firebasestorage.googleapis.com/v0/b/did-it-237f2.appspot.com/o/50c14800-29d5-47fd-9716-4a6dbf6e10d7%3Foffset%3D0%26size%3D0.jpg?alt=media&token=e3becb90-a5ce-4644-a0db-c26e10e898fc',
+      username: 'Sample User',
+      moment: 'Sample Moment',
+    },
+  });
 
   useEffect(() => {
     const pullImages = () => {
       const db = getDatabase(firebase);
-      getUUID()
-      .then(uuid => {
+      getUUID().then((uuid) => {
         const imagesRef = ref(db, 'users/' + uuid + '/images/');
 
         onValue(imagesRef, (snapshot) => {
-          console.log("Pulling images from cloud")
+          console.log('Pulling images from cloud');
           const data = snapshot.val();
-          updateImages(data)
-          console.log("Images pulled from cloud")
+          updateImages(data);
+          console.log('Images pulled from cloud');
         });
-      })
-    }
+      });
+    };
 
-    pullImages()
-  }, [])
-
+    pullImages();
+  }, []);
 
   return (
     <View style={styles.container}>
+      {displayUserNames()}
       <ScrollView style={styles.scrollContainer}>
-        {/* <Image 
-          style={styles.image}
-          source={{uri: sampleImageURL['img_url']}} 
-          // source={sampleImageURL} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        />
-        <Image 
-          style={styles.image}
-          source={require('../assets/henryandom3.jpg')} 
-        /> */}
-
         {displayImages(images)}
       </ScrollView>
-
       <StatusBar style="auto" />
     </View>
   );
@@ -93,107 +102,53 @@ export default function Account({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    backgroundColor: '#FFFDD0',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 40,
   },
   scrollContainer: {
-    showsVerticalScrollIndicator: false,
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  row: {
+    flexDirection: 'column',
+    marginBottom: 30,
+    alignItems: 'center',
   },
   image: {
-    height: 400, 
-    width: Dimensions.get('window').width,
-    marginTop: 50,
-    marginBottom: 50
-  }
+    height: 400,
+    width: Dimensions.get('window').width - 40,
+    marginBottom: 20,
+    borderColor: '#000000',
+    borderWidth: 2,
+  },
+  images: {},
+  button: {
+    backgroundColor: 'rgba(251, 91, 90, 0.8)',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    elevation: 10,
+    marginHorizontal: 5,
+    marginBottom: 10,
+  },
+  buttonText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'white',
+  },
+  moment: {
+    fontSize: 14,
+    color: 'white',
+    marginBottom: 10,
+  },
 });
-
-
-
-//   return (
-//     <View style={styles.container}>
-//       <Button 
-//         style={styles.Button}
-//         title="Home"
-//         onPress={() => navigation.navigate("Picture", { language: "english" })}
-//       />
-//       {/* <View style={styles.cameraContainer}>
-//       </View> */}
-//       {/* <View style={styles.inputView}>
-//         <TextInput  
-//           style={styles.inputText}
-//           placeholder="Name..." 
-//           placeholderTextColor="#0a3e57"
-//           value={email}
-//           onChangeText={text => setEmail(text)}
-//         />
-//       </View>
-//       <View style={styles.inputView}>
-//         <TextInput  
-//           secureTextEntry
-//           style={styles.inputText}
-//           placeholder="Password..." 
-//           placeholderTextColor="#003f5c"
-//           value={password}
-//           onChangeText={text => setPassword(text)}
-//         />
-//       </View>
-//       <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9}>
-//         <Text style={styles.loginText}>Pull Picture</Text>
-//       </TouchableOpacity> */}
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   logo:{
-//     fontWeight:"bold",
-//     fontSize:50,
-//     color:"#fb5b5a",
-//     marginBottom:40
-//   },
-//   inputView:{
-//     width:"80%",
-//     backgroundColor:"#465881",
-//     borderRadius:25,
-//     height:50,
-//     marginBottom:20,
-//     justifyContent:"center",
-//     padding:20
-//   },
-//   inputText:{
-//     height:50,
-//     color:"white"
-//   },
-//   cameraContainer: {
-//     flex: 1,
-//     flexDirection: 'row',
-//   },
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#FFD700',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   forgot:{
-//     color:"white",
-//     fontSize:11
-//   },
-//   loginText:{
-//     color:"white"
-//   },
-//   loginBtn:{
-//     width:"80%",
-//     backgroundColor:"#fb5b5a",
-//     borderRadius:25,
-//     height:50,
-//     alignItems:"center",
-//     justifyContent:"center",
-//     marginTop:40,
-//     marginBottom:10
-//   },
-//   Button:{
-//     color:"black"
-//   },
-// });
