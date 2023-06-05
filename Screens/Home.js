@@ -7,24 +7,17 @@ export default function Home({ navigation }) {
   const [images, setImages] = useState([]);
 
   const displayImages = (images) => {
-    // console.log(images)
-    if (!images) {
-      return (
-        <View>
-          <Text>You have no images dumbass</Text>
-        </View>
-      );
-    } else {
-      imageKeys = Object.keys(images)
-      console.log("Displaying images...")
-      return (
-        <View>
-          {Object.entries(images).map(([key, value]) => (
-            <Image key={key} source={{ uri: value.img_url }} style={styles.image} />
-          ))}
-        </View>
-      );
-    }
+    return (
+      <View>
+        {images.map((value, index) => (
+          <View key={index} style={styles.imageContainer}>
+            <Text style={styles.username}>{value.username}</Text>
+            <Text style={styles.moment}>{value.moment}</Text>
+            <Image source={{ uri: value.img_url }} style={styles.image} />
+          </View>
+  ))}
+      </View>
+    );
   };
 
   useEffect(() => {
@@ -39,7 +32,6 @@ export default function Home({ navigation }) {
         for (const uuid in users) {
           if (Object.hasOwnProperty.call(users, uuid)) {
             const imagesRef = ref(db, 'users/' + uuid + '/images/');
-            const usernameRef = ref(db, 'users/' + uuid + '/info/');
 
             onValue(imagesRef, (snapshot) => {
               const images = snapshot.val();
@@ -56,7 +48,6 @@ export default function Home({ navigation }) {
           }
         }
         updateImages(allImages);
-        console.log(allImages)
       });
     };
 
@@ -90,33 +81,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#003f5c',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 40,
   },
   scrollContainer: {
-    showsVerticalScrollIndicator: false,
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   image: {
-    height: 650,
-    width: 361,
-    marginTop: 50,
-    marginBottom: 50,
+    height: 400,
+    width: Dimensions.get('window').width - 40,
+    marginBottom: 20,
     borderColor: '#000000',
     borderWidth: 2,
   },
   logo: {
-    height: 150, 
+    height: 150,
     width: 200,
     marginTop: 60,
-    marginBottom: 0
+    marginBottom: 0,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
   },
   button: {
-    backgroundColor: '#fb5b5a',
-    padding: 10,
+    backgroundColor: 'rgba(251, 91, 90, 0.8)', // Transparent red color with 80% opacity
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 15,
     elevation: 10,
-    marginRight: 12,
-    marginLeft: 3,
+    marginHorizontal: 5,
     marginBottom: 10,
-    marginTop:45,
   },
   buttonText: {
     fontSize: 12,
@@ -125,4 +122,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
+  imageContainer: {
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'white',
+  },
+  moment: {
+    fontSize: 14,
+    color: 'white',
+    marginBottom: 10,
+  },
 });
+
+
