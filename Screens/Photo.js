@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-n
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
-import { uploadBytesResumable, ref, getStorage, getDownloadURL } from "firebase/storage"
+import { uploadBytesResumable, ref, getStorage, getDownloadURL, } from "firebase/storage"
 import { firebase } from '../firebaseConfig.js';
-import { getDatabase, ref as dbRef, set, push } from "firebase/database"
+import { getDatabase, ref as dbRef, set, push, get, onValue, once} from "firebase/database"
 import uuid4 from 'uuid4';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment'
 
 export default function Subtract({ navigation, route }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -55,15 +56,43 @@ export default function Subtract({ navigation, route }) {
   }, []);
 
   const addImageReference = async (image_url) => {
-    getUUID()
-    .then(uuid => {
-      // console.log("UseriD: " + uuid)
+    try {
+      const uuid = await getUUID();
       const db = getDatabase(firebase);
-      push(dbRef(db, 'users/' + uuid + "/" + "images"), {
-        img_url: image_url
-      });
-    })
-  }
+      console.log(uuid);
+      console.log('No Error Yet1');
+      console.log('users/' + uuid + '/info/username');
+      const usernameref = dbRef(db, 'users/' + uuid + '/info/username');
+      console.log("hi");
+  
+      get(usernameref)
+        .then((snapshot) => {
+          const data = snapshot.val();
+          console.log('Username retrieved:', data);
+  
+          const imageRef = dbRef(db, 'users/' + uuid + '/images');
+          const newImageRef = push(imageRef);
+          console.log('Yo')
+          time = moment().format('MMMM Do YYYY, h:mm:ss a');
+          set(newImageRef, {
+            img_url: image_url,
+            username: data, // Use the retrieved username here
+            moment: time,
+          });
+          
+          console.log('Image reference added to the database.');
+        })
+        .catch((error) => {
+          console.error('Error retrieving username:', error);
+        });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  
+  
+  
 
   const flipCamera = () => {
     setType(
@@ -100,10 +129,7 @@ export default function Subtract({ navigation, route }) {
   
         const url = await getDownloadURL(snapshot.ref);
         console.log(url);
-        addImageReference(url)
-        .then(
-          navigation.navigate("Home")
-        );
+        addImageReference(url);
       } 
       catch (error) {
         console.error('Error uploading image:', error);
