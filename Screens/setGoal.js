@@ -3,19 +3,17 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 
 const randomGoals = [
   'E.g. run a mile',
-  'E.g. lift some weights',
+  'E.g. read a book',
   'E.g. practice spanish',
-  'E.g. do some yoga',
-  'E.g. write my english essay',
+  'E.g. practice yoga',
+  'E.g. write a poem',
   'E.g. paint a picture',
-  'E.g. cook dinner',
-  'E.g. drink 2 bottles of water',
+  'E.g. cook a new recipe',
 ];
 
 export default function GoalScreen({ navigation }) {
   const [goal, setGoal] = useState('');
   const [isGoalSettable, setIsGoalSettable] = useState(false);
-  const [holdTimer, setHoldTimer] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(generateRandomGoal, 2000); // Generate a new random goal every 2 seconds
@@ -33,37 +31,14 @@ export default function GoalScreen({ navigation }) {
   };
 
   const handleGoalSubmit = () => {
-    if (holdTimer) {
-      clearTimeout(holdTimer); // Clear the hold timer if the button is released before the hold time
-      setHoldTimer(null);
-    } else {
-      // Perform any necessary actions with the goal (e.g., save it to a database)
-      // ...
-      // After performing the actions, navigate to a different screen
-      navigation.navigate('Home');
-    }
-  };
-
-  const handleGoalPressIn = () => {
-    setHoldTimer(
-      setTimeout(() => {
-        // Perform any necessary actions with the goal (e.g., save it to a database)
-        // ...
-        // After performing the actions, navigate to a different screen
-        navigation.navigate('Home');
-      }, 1000) // Hold time required to trigger the submit action (in milliseconds)
-    );
-  };
-
-  const handleGoalPressOut = () => {
-    if (holdTimer) {
-      clearTimeout(holdTimer); // Clear the hold timer if the button is released before the hold time
-      setHoldTimer(null);
-    }
+    // Perform any necessary actions with the goal (e.g., save it to a database)
+    // ...
+    // After performing the actions, navigate to a different screen
+    navigation.navigate('Home');
   };
 
   const clearPlaceholder = () => {
-    if (goal === '') {
+    if (goal === randomGoals[0]) {
       setGoal('');
     }
   };
@@ -71,8 +46,8 @@ export default function GoalScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.logo}>Set Your Goal</Text>
-        <View style={styles.inputView}>
+        <Text style={styles.logo}>Set Your Goal</Text>  
+      <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
             placeholder={goal === '' ? 'Set your goal' : goal}
@@ -84,8 +59,7 @@ export default function GoalScreen({ navigation }) {
         <TouchableOpacity
           style={[styles.goalBtn, !isGoalSettable && styles.disabledGoalBtn]}
           activeOpacity={0.9}
-          onPressIn={handleGoalPressIn}
-          onPressOut={handleGoalPressOut}
+          onPress={handleGoalSubmit}
           disabled={!isGoalSettable}
         >
           <Text style={styles.goalText}>SET GOAL</Text>
