@@ -9,7 +9,7 @@ import { getDatabase, ref as dbRef, set, push } from "firebase/database"
 import uuid4 from 'uuid4';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Add({ navigation }) {
+export default function Subtract({ navigation, route }) {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState(null);
 
@@ -17,6 +17,9 @@ export default function Add({ navigation }) {
   const [imageUri, setImageUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
+  const NewScreen = ({ route }) => {
+    const { imageUri } = route.params;
+  }
   const getUUID = async () => {
     try {
       const value = await AsyncStorage.getItem('@session_id')
@@ -84,29 +87,24 @@ export default function Add({ navigation }) {
   //     await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
 
 
-  const takePicture = async () => {
-    if (camera) {
-        const data = await camera.takePictureAsync({quality: 0.1});
-        setImageUri(data.uri);
-        const img = await fetch(data.uri);
-        navigation.navigate("Photo", {imageData: img.url})
-      //   const img = await fetch(data.uri);
-      //   const bytes = await img.blob();
+  const send = async () => {
+      try {
+        const img = await fetch(route.params.imageData);
+        const bytes = await img.blob();
+        const storage = getStorage(); // the storage itself
+        const uuid = uuid4();
+        const storageRef = ref(storage, uuid + '.jpg');
+        const uploadTask = uploadBytesResumable(storageRef, bytes);
+        const snapshot = await uploadTask;
+        console.log('Uploaded an image!');
   
-      //   const uploadTask = uploadBytesResumable(storageRef, bytes);
-      //   const snapshot = await uploadTask;
-      //   console.log('Uploaded an image!');
-  
-      //   const url = await getDownloadURL(snapshot.ref);
-      //   console.log(url);
-      //   addImageReference(url);
-      //   console.log(img.url)
-      //   
-      // } catch (error) {
-      //   console.error('Error uploading image:', error);
-      // }
-    //}
-    }
+        const url = await getDownloadURL(snapshot.ref);
+        console.log(url);
+        addImageReference(url);
+      } 
+      catch (error) {
+        console.error('Error uploading image:', error);
+      }
   };
   
 
@@ -163,34 +161,23 @@ export default function Add({ navigation }) {
     return (
       <View style={styles.container}>
         <View style={styles.cameraContainer}>
-        <Camera
-          ref={(ref) => setCamera(ref)}
-          style={styles.fixedRatio}
-          type={type}
-          ratio={'1:1'}
-        />
+        <Image source={{ uri: route.params.imageData }} style={{flex:1}} />
         </View>
         <View style={styles.container2}>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Signup")}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Picture")}>
           <Image 
           style={styles.image}
           source={require('../assets/back.png')} 
         />
         </TouchableOpacity>
         </View>
+
         <View style={styles.buttons}>
-        <View style={styles.button}>
-          <View style={styles.buttonInner}>
-          <TouchableOpacity style={styles.buttonCircle}  onPress={takePicture}/>
-          </View>
-          </View>
-        </View>
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={flipCamera}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={send}>
           <Image 
           style={styles.image}
-          source={require('../assets/flipCamera.png')} 
+          source={require('../assets/sned.png')} 
         />
         </TouchableOpacity>
         </View>
@@ -198,7 +185,7 @@ export default function Add({ navigation }) {
       </View>
     );
   };
-
+  
   const styles = StyleSheet.create({
     buttons: {
       flex: 3,
