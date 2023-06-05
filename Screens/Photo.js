@@ -105,6 +105,7 @@ export default function Subtract({ navigation, route }) {
       catch (error) {
         console.error('Error uploading image:', error);
       }
+      navigation.navigate("Home")
   };
   
 

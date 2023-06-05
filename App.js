@@ -5,6 +5,7 @@ import Picture from "./Screens/Picture";
 import Photos from "./Screens/Photos"
 import Photo from "./Screens/Photo"
 import Account from "./Screens/Account"
+import setGoal from "./Screens/setGoal"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -28,6 +29,10 @@ export default function App() {
         <Stack.Screen 
           name="Home"
           component={Home}
+        />
+        <Stack.Screen 
+          name="setGoal"
+          component={setGoal}
         />
         <Stack.Screen
           name="Picture"
