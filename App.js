@@ -6,10 +6,12 @@ import Photos from "./Screens/Photos"
 import Photo from "./Screens/Photo"
 import Account from "./Screens/Account"
 import setGoal from "./Screens/setGoal"
+import Social from "./Screens/Social"
 import completedGoal from "./Screens/completedGoal"
 import Social from "./Screens/Social"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 
 const Stack = createNativeStackNavigator();
 
