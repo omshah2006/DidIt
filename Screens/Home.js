@@ -3,6 +3,18 @@ import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, Stat
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from "firebase/database"
 import ExpoFastImage from 'expo-fast-image'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const getUUID = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@session_id')
+    if(value !== null) {
+      return value
+    }
+  } catch(e) {
+    console.log(e)
+  }
+}
 
 export default function Home({ navigation }) {
   const [images, setImages] = useState([]);
@@ -26,33 +38,36 @@ export default function Home({ navigation }) {
 
   useEffect(() => {
     const pullImages = () => {
-      const db = getDatabase(firebase);
-      const usersRef = ref(db, 'users/');
-
-      onValue(usersRef, (snapshot) => {
-        const users = snapshot.val();
-        const allImages = [];
-
-        for (const uuid in users) {
-          if (Object.hasOwnProperty.call(users, uuid)) {
-            const imagesRef = ref(db, 'users/' + uuid + '/images/');
-
-            onValue(imagesRef, (snapshot) => {
-              const images = snapshot.val();
-
-              if (images) {
-                for (const imageKey in images) {
-                  if (Object.hasOwnProperty.call(images, imageKey)) {
-                    allImages.push(images[imageKey]);
+      getUUID()
+      .then(uuid => {
+        const db = getDatabase(firebase);
+        const usersRef = ref(db, 'users/' + uuid + '/friends/');
+  
+        onValue(usersRef, (snapshot) => {
+          const users = snapshot.val();
+          const allImages = [];
+  
+          for (const uuid in users) {
+            if (Object.hasOwnProperty.call(users, uuid)) {
+              const imagesRef = ref(db, 'users/' + uuid + '/images/');
+  
+              onValue(imagesRef, (snapshot) => {
+                const images = snapshot.val();
+  
+                if (images) {
+                  for (const imageKey in images) {
+                    if (Object.hasOwnProperty.call(images, imageKey)) {
+                      allImages.push(images[imageKey]);
+                    }
                   }
                 }
-              }
-
-            });
+  
+              });
+            }
           }
-        }
-        updateImages(allImages);
-      });
+          updateImages(allImages);
+        });
+      })
     };
 
     const updateImages = (allImages) => {
