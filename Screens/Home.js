@@ -4,17 +4,23 @@ import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from "firebase/database"
 import ExpoFastImage from 'expo-fast-image'
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
   const [images, setImages] = useState([]);
 
   const displayImages = (images) => {
+    const goalText = route.params.goalText
+    console.log(goalText)
     return (
       <View style={styles.imageWrapper}>
         {images.map((value, index) => (
           <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
             <Text style={styles.username}>{value.username}</Text>
             <Text style={styles.moment}>{value.moment}</Text>
-            <ExpoFastImage source={{ uri: value.img_url }} style={styles.image} />
+            <ExpoFastImage
+              source={{ uri: value.img_url }}
+              style={[styles.image, styles.roundedImage]}
+            />
+            <Text style={styles.moment}>{"dsd"}</Text>
           </View>
         ))}
       </View>
@@ -54,7 +60,6 @@ export default function Home({ navigation }) {
 
     const updateImages = (allImages) => {
       setImages(allImages);
-      // console.log(allImages);
     };
 
     pullImages();
@@ -153,5 +158,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderColor: '#000000',
     borderWidth: 2,
+  },
+  roundedImage: {
+    borderRadius: 10,
   },
 });
