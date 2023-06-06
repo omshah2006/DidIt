@@ -1,36 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text, FlatList } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from "firebase/database"
 import ExpoFastImage from 'expo-fast-image'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const getUUID = async () => {
-  try {
-    const value = await AsyncStorage.getItem('@session_id')
-    if (value !== null) {
-      return value
-    }
-  } catch (e) {
-    console.log(e)
-  }
-}
 
 export default function Home({ navigation, route }) {
-  const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
 
   const displayImages = (images) => {
-    // Sort the images based on post time
-    const sortedImages = images.sort((a, b) => {
-      const momentA = new Date(a.moment).getTime();
-      const momentB = new Date(b.moment).getTime();
-      return momentA - momentB;
-    });
-  
+
     return (
       <View style={styles.imageWrapper}>
-        {sortedImages.reverse().map((value, index) => (
+        {sortedImages.map((value, index) => (
           <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
             <Text style={styles.username}>{value.username}</Text>
             <Text style={styles.moment}>{value.moment}</Text>
@@ -40,7 +21,6 @@ export default function Home({ navigation, route }) {
             />
             <Text style={styles.moment}>{value.goal}</Text>
           </View>
-
         ))}
       </View>
     );
@@ -77,38 +57,12 @@ export default function Home({ navigation, route }) {
       });
     };
 
-  const updateImages = (allImages) => {
-    setImages(allImages);
-    setLoading(false);
-  };
+    const updateImages = (allImages) => {
+      setImages(allImages);
+    };
 
-  useEffect(() => {
     pullImages();
   }, []);
-
-  const displayImages = (images) => {
-    const sortedImages = images.sort((a, b) => {
-      const momentA = new Date(a.moment).getTime();
-      const momentB = new Date(b.moment).getTime();
-      return momentA - momentB;
-    });
-
-    return (
-      <View style={styles.imageWrapper}>
-        {sortedImages.reverse().map((value, index) => (
-          <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
-            <Text style={styles.username}>{value.username}</Text>
-            <Text style={styles.moment}>{value.moment}</Text>
-            <ExpoFastImage
-              source={{ uri: value.img_url }}
-              style={[styles.image, styles.roundedImage]}
-            />
-            <Text style={styles.moment}>{value.goal}</Text>
-          </View>
-        ))}
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -127,11 +81,7 @@ export default function Home({ navigation, route }) {
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
-        {loading ? (
-          <Text>Loading...</Text>
-        ) : (
-          displayImages(images)
-        )}
+        {displayImages(images)}
       </ScrollView>
       <StatusBar style="auto" />
     </View>
@@ -158,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: 'rgba(251, 91, 90, 0.8)',
+    backgroundColor: 'rgba(251, 91, 90, 0.8)', // Transparent red color with 80% opacity
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,

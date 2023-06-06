@@ -27,12 +27,15 @@ export default function Social({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const displayUsers = (users) => {
-    // Filter users based on search query
     const filteredUsers = users.filter(
       (user) =>
         user.info &&
         user.info.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if (searchQuery === '') {
+      return null; // Return null if search query is empty
+    }
 
     return (
       <View>
