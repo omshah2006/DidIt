@@ -150,13 +150,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#003f5c',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 40,
+    paddingTop: 20,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    marginTop: 20,
   },
   buttonCircle2: {
     width: 60,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginRight: 150,
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 20,
   },
   image2: {
     width: 45,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     elevation: 10,
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 20,
   },
   buttonText: {
     fontSize: 12,
