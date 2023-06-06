@@ -47,36 +47,51 @@ export default function Social({ navigation }) {
   const handleAddFriend = (username) => {
     getUUID().then((uuid) => {
       if (uuid !== username) {
-        console.log(uuid)
         const db = getDatabase(firebase);
-        const currentUserFriendRef = ref(db, 'users/' + uuid + '/friends');
-  
-        // Check if the 'friends' object exists for the current user
-        get(currentUserFriendRef)
-          .then((snapshot) => {
-            const friendsData = snapshot.val();
-  
-            if (friendsData === null) {
-              // Create 'friends' object if it doesn't exist
+        const uuidForUsernameRef = ref(db, 'users/')
+        get(uuidForUsernameRef)
+        .then((snapshot) => {
+          const users = snapshot.val();
+          for (userUUID in users) {
+            // console.log(users[userUUID]["info"]["username"])
+            // console.log(username)
+            if (users[userUUID]["info"]["username"] === username) {
+              // const currentUserFriendRef = ref(db, 'users/' + uuid + '/friends');
               push(ref(db, 'users/' + uuid + '/friends/'), {
-                friends: username
+                friend_uuid: userUUID,
+                name: username
               });
-            
-            } else {
-              // Append the 'username' to the 'friends' folder for the current user
-              if (!friendsData[username]) {
-                push((currentUserFriendRef), {
-                    friends: username
-                });
+              // Check if the 'friends' object exists for the current user
+              // get(currentUserFriendRef)
+              //   .then((snapshot) => {
+              //     const friendsData = snapshot.val();
+      
+
+      
+              //     // if (friendsData === null) {
+              //     //   // Create 'friends' object if it doesn't exist
+              //     //   push(ref(db, 'users/' + uuid + '/friends/'), {
+              //     //     friend: username
+              //     //   });
                   
-              } else {
-                console.log(`${username} is already a friend.`);
-              }
+              //     // } else {
+              //     //   // Append the 'username' to the 'friends' folder for the current user
+              //     //   if (!friendsData[username]) {
+              //     //     push((currentUserFriendRef), {
+              //     //         name: username
+              //     //     });
+                        
+              //     //   } else {
+              //     //     console.log(`${username} is already a friend.`);
+              //     //   }
+              //     // }
+              //   })
+              //   .catch((error) => {
+              //     console.error('Failed to fetch friends data:', error);
+              //   });
             }
-          })
-          .catch((error) => {
-            console.error('Failed to fetch friends data:', error);
-          });
+          }
+        })
       }
     });
   };

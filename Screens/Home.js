@@ -44,9 +44,10 @@ export default function Home({ navigation }) {
           const users = snapshot.val();
           const allImages = [];
   
-          for (const uuid in users) {
-            if (Object.hasOwnProperty.call(users, uuid)) {
-              const imagesRef = ref(db, 'users/' + uuid + '/images/');
+          for (const friend in users) {
+            if (Object.hasOwnProperty.call(users, friend)) {
+              // console.log(users[friend])
+              const imagesRef = ref(db, 'users/' + users[friend]["friend_uuid"] + '/images/');
   
               onValue(imagesRef, (snapshot) => {
                 const images = snapshot.val();
