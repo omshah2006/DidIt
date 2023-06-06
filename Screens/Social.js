@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text, FlatList } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text, TextInput } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue, set, get, push } from "firebase/database"
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,22 +7,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Social({ navigation }) {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');
-
+  const [searchQuery, setSearchQuery] = useState('');
 
   const displayUsers = (users) => {
+    const filteredUsers = users.filter(
+      (value) =>
+        value.info && value.info.username.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    if (searchQuery === '') {
+      return null;
+    }
+
     return (
       <View>
-        {users.map((value, index) => (
+        {filteredUsers.map((value, index) => (
           <View key={index} style={styles.imageContainer}>
             <View style={styles.rowContainer}>
               {value.info && value.info.username ? (
                 <>
-                  <Text style={styles.username}>{value.info.username}</Text>
                   <TouchableOpacity
                     style={styles.addButton}
                     onPress={() => handleAddFriend(value.info.username)}
                   >
-                    <Text style={styles.button}>Add Friend</Text>
+                    <Text style={styles.button}>{value.info.username}</Text>
                   </TouchableOpacity>
                 </>
               ) : null}
@@ -35,7 +43,7 @@ export default function Social({ navigation }) {
       </View>
     );
   };
-  
+
   const getUUID = async () => {
     try {
       const value = await AsyncStorage.getItem('@session_id');
@@ -51,57 +59,22 @@ export default function Social({ navigation }) {
     getUUID().then((uuid) => {
       if (uuid !== username) {
         const db = getDatabase(firebase);
-        const uuidForUsernameRef = ref(db, 'users/')
-        get(uuidForUsernameRef)
-        .then((snapshot) => {
+        const uuidForUsernameRef = ref(db, 'users/');
+        get(uuidForUsernameRef).then((snapshot) => {
           const users = snapshot.val();
           for (userUUID in users) {
-            // console.log(users[userUUID]["info"]["username"])
-            // console.log(username)
             if (users[userUUID]["info"]["username"] === username) {
-              // const currentUserFriendRef = ref(db, 'users/' + uuid + '/friends');
               push(ref(db, 'users/' + uuid + '/friends/'), {
                 friend_uuid: userUUID,
                 name: username
               });
-              // Check if the 'friends' object exists for the current user
-              // get(currentUserFriendRef)
-              //   .then((snapshot) => {
-              //     const friendsData = snapshot.val();
-      
-
-      
-              //     // if (friendsData === null) {
-              //     //   // Create 'friends' object if it doesn't exist
-              //     //   push(ref(db, 'users/' + uuid + '/friends/'), {
-              //     //     friend: username
-              //     //   });
-                  
-              //     // } else {
-              //     //   // Append the 'username' to the 'friends' folder for the current user
-              //     //   if (!friendsData[username]) {
-              //     //     push((currentUserFriendRef), {
-              //     //         name: username
-              //     //     });
-                        
-              //     //   } else {
-              //     //     console.log(`${username} is already a friend.`);
-              //     //   }
-              //     // }
-              //   })
-              //   .catch((error) => {
-              //     console.error('Failed to fetch friends data:', error);
-              //   });
             }
           }
-        })
+        });
       }
     });
   };
-  
-  
-  
-  
+
   useEffect(() => {
     const db = getDatabase(firebase);
     const pullUsers = () => {
@@ -114,7 +87,7 @@ export default function Social({ navigation }) {
         for (const uuid in usersData) {
           if (Object.hasOwnProperty.call(usersData, uuid)) {
             const userRef = ref(db, 'users/' + uuid);
-            
+
             onValue(userRef, (snapshot) => {
               const userData = snapshot.val();
 
@@ -138,7 +111,6 @@ export default function Social({ navigation }) {
         console.log('Username pulling from cloud');
         const data = snapshot.val();
         setUsername(data);
-        console.log('Username pulled from cloud');
       });
     });
 
@@ -156,21 +128,18 @@ export default function Social({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("setGoal")}>
-        <Text style={styles.buttonText}>Set Goal</Text>
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
-        <Text style={styles.buttonText}>Your Photos</Text>
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
-        <Text style={styles.buttonText}>Take Picture</Text>
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
-        <Text style={styles.buttonText}>Social</Text>
-      </TouchableOpacity> */}
-      <ScrollView style={styles.scrollContainer}>
-        {displayUsers(users)}
-      </ScrollView>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search users..."
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+        />
+        <ScrollView style={styles.resultContainer}>
+          {displayUsers(users)}
+        </ScrollView>
+      </View>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -184,22 +153,61 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 40,
   },
-  innerContainer: {
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  buttonCircle2: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: 'white',
+    marginRight: 150,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  image2: {
+    width: 45,
+    height: 45,
+    marginLeft: 7,
+    marginTop: 7,
+  },
+  button: {
+    backgroundColor: 'rgba(251, 91, 90, 0.8)',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    elevation: 10,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  buttonText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: 'white',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  searchContainer: {
+    backgroundColor: 'black',
     borderRadius: 20,
     padding: 20,
     width: Dimensions.get('window').width - 40,
-    height: Dimensions.get('window').height - 80,
-    marginRight: 20,
-  },
-  scrollContainer: {
-    flex: 1,
-    paddingTop: 20,
-    backgroundColor: '#003f5c',
-    borderRadius: 20,
-  },
-  imageContainer: {
     marginBottom: 20,
+  },
+  searchInput: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 15,
+    marginBottom: 10,
+  },
+  resultContainer: {
+    maxHeight: 150,
+    borderRadius: 15,
+  },
+  userContainer: {
+    marginBottom: 10,
     alignItems: 'center',
   },
   rowContainer: {
@@ -208,16 +216,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  username: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'grey',
-    marginBottom: 15,
-  },
   addButton: {
-    backgroundColor: 'black',
+    backgroundColor: 'transparent',
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 80,
     borderRadius: 15,
     elevation: 10,
     marginHorizontal: 5,
@@ -232,45 +234,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
   },
-  button2: {
-    backgroundColor: 'white',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    elevation: 10,
-    marginHorizontal: 5,
-    marginBottom: 10,
-  },
-  buttonText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: 'white',
-    alignSelf: 'center',
-    textTransform: 'uppercase',
-  },
   moment: {
     fontSize: 14,
     color: 'grey',
-    marginBottom: 10,
-  },
-  image2: {
-    width: 45,
-    height: 45,
-    marginLeft: 7,
-    marginTop: 7,
-  },
-  buttonCircle2: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'white',
-    marginRight: 150,
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 10,
   },
 });

@@ -89,10 +89,10 @@ export default function Home({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Account")}>
-          <AntDesign name="user" size={40} color="#FFFFFF" />
+          <AntDesign name="user" size={40} color="#000000" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Social")}>
-          <Feather name="users" size={40} color="#FFFFFF" />
+          <Feather name="users" size={40} color="#000000" />
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     elevation: 10,
     marginHorizontal: 5,
-    marginBottom: 10,
+    marginBottom: 0 ,
   },
   scrollContentContainer: {
     flexGrow: 1,

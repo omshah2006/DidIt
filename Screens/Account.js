@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: 10,
     marginTop: 10,
-    marginRight: 150,
+    marginRight: 100,
   },
   button: {
     backgroundColor: 'rgba(251, 91, 90, 0.8)',
