@@ -56,7 +56,7 @@ export default function Subtract({ navigation, route }) {
     permisionFunction();
   }, []);
 
-  const addImageReference = async (image_url) => {
+  const addImageReference = async (image_url, goalText) => {
     try {
       const uuid = await getUUID();
       const db = getDatabase(firebase);
@@ -70,7 +70,8 @@ export default function Subtract({ navigation, route }) {
         .then((snapshot) => {
           const data = snapshot.val();
           console.log('Username retrieved:', data);
-  
+          const { goalSet } = route.params;
+          console.log(goalSet)
           const imageRef = dbRef(db, 'users/' + uuid + '/images');
           const newImageRef = push(imageRef);
           console.log('Yo')
@@ -79,6 +80,7 @@ export default function Subtract({ navigation, route }) {
             img_url: image_url,
             username: data, // Use the retrieved username here
             moment: time,
+            goal: goalSet,
           });
           
           console.log('Image reference added to the database.');
@@ -118,8 +120,8 @@ export default function Subtract({ navigation, route }) {
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-    send()
     send();
+    navigation.navigate("Home")
   };
   
 
@@ -141,7 +143,6 @@ export default function Subtract({ navigation, route }) {
       catch (error) {
         console.error('Error uploading image:', error);
       }
-      navigation.navigate("Home")
   };
   
 

@@ -37,8 +37,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.11",
     "uuid": "^9.0.0",
-    "uuid4": "^2.0.3",
-    "expo-haptics": "~12.2.1"
+    "uuid4": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
