@@ -9,7 +9,7 @@ const randomGoals = [
   'E.g. write a poem',
   'E.g. paint a picture',
   'E.g. cook a new recipe',
-  'E.g. drink 2 bottles of water',
+  'E.g. drink two bottles of water',
 ];
 
 export default function GoalScreen({ navigation }) {
