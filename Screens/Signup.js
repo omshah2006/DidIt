@@ -123,7 +123,7 @@ const LoginScreen = () => {
           <TextInput
             style={styles.inputText}
             placeholder="Email..." 
-            placeholderTextColor="white"
+            placeholderTextColor="black"
             value={email}
             onChangeText={text => setEmail(text)}
           />
@@ -133,7 +133,7 @@ const LoginScreen = () => {
             secureTextEntry
             style={styles.inputText}
             placeholder="Password..." 
-            placeholderTextColor="white"
+            placeholderTextColor="black"
             value={password}
             onChangeText={text => setPassword(text)}
           />
@@ -142,6 +142,7 @@ const LoginScreen = () => {
           <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleLogin}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
+          <Text style ={styles.orText}> or </Text>
           <TouchableOpacity style={styles.signupBtn} activeOpacity = {0.9} onPress={handleSignUp}>
             <Text style={styles.loginText}>SIGNUP</Text>
           </TouchableOpacity>
@@ -163,22 +164,22 @@ const styles = StyleSheet.create({
     height: 150, 
     width: 200,
     marginTop: 0,
-    marginBottom: 50
+    marginBottom: 50,
   },
   inputView:{
     width:"80%",
-    backgroundColor:"transparent",
+    backgroundColor:"white",
     borderRadius:25,
     height:50,
     marginBottom:20,
     justifyContent:"center",
     padding:20,
-    borderColor: '#fb5b5a',
+    borderColor: 'black',
     borderWidth: 2,
   },
   inputText:{
     height:50,
-    color:"white"
+    color:"black"
   },
   forgot:{
     color:"white",
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
   logo:{
     fontWeight:"bold",
     fontSize:50,
-    color:"#fb5b5a",
+    color:"#FF5B42",
     marginBottom:40
   },
   loginBtn:{
@@ -196,11 +197,11 @@ const styles = StyleSheet.create({
     height:50,
     alignItems:"center",
     justifyContent:"center",
-    borderColor: '#fb5b5a',
+    borderColor: 'black',
     borderWidth: 2,
     marginTop:40,
     marginBottom:10,
-    backgroundColor: '#fb5b5a',
+    backgroundColor: '#FF5B42',
   },
   signupBtn:{
     width:"80%",
@@ -210,9 +211,9 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     marginTop:4,
     marginBottom:10,
-    borderColor: '#fb5b5a',
+    borderColor: 'black',
     borderWidth: 2,
-    backgroundColor: '#fb5b5a',
+    backgroundColor: '#FF5B42',
   },
   loginText:{
     color:"black",
@@ -251,4 +252,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
+  orText: {
+    fontSize: 15,
+    color: 'white',
+    marginBottom: 10,
+
+  }
+
 })

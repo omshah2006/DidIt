@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   goalBtn: {
     width: '100%',
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#FF5B42',
     borderRadius: 15,
     height: 50,
     alignItems: 'center',

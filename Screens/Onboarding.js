@@ -45,7 +45,7 @@ export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.logo}>Additional Info</Text>
+        <Text style={styles.logo}>Onboarding</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     fontWeight: "bold",
-    fontSize: 50,
+    fontSize: 45,
     color: "#000",
     marginBottom: 40
   },
@@ -116,11 +116,12 @@ const styles = StyleSheet.create({
     color: "#ffffff"
   },
   loginText: {
-    color: "#ffffff"
+    color: "black",
+    fontWeight: 'bold',
   },
   loginBtn: {
     width: "100%",
-    backgroundColor: "#000000",
+    backgroundColor: "#FF5B42",
     borderRadius: 25,
     height: 50,
     alignItems: "center",

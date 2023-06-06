@@ -196,7 +196,7 @@ export default function Subtract({ navigation, route }) {
         {
           !imageUploaded &&    
           <View style={styles.buttons}>
-            <TouchableOpacity style={styles.buttonCircle2}  onPress={handlePress}>
+            <TouchableOpacity style={styles.buttonCircle}  onPress={handlePress}>
               <Image 
               style={styles.image}
               source={require('../assets/sned.png')} 
@@ -276,7 +276,7 @@ export default function Subtract({ navigation, route }) {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#fff',
+    backgroundColor: '#FF5B42',
   },
   buttonCircle2: {
     width: 60,
