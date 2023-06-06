@@ -184,7 +184,7 @@ export default function Subtract({ navigation, route }) {
         </View>
         <View style={styles.container2}>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Picture")}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Picture", {goalText: route.params.goalText})}>
           <Image 
           style={styles.image}
           source={require('../assets/back.png')} 
