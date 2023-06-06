@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
   button: {
-    backgroundColor: 'rgba(251, 91, 90, 0.8)',
+    backgroundColor: '#FF5B42',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
     elevation: 10,
     marginBottom: 10,
-    marginTop: 20,
+    marginTop: 10,
   },
   buttonText: {
     fontSize: 12,

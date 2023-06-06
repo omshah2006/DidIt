@@ -28,6 +28,7 @@ export default function App() {
         <Stack.Screen 
           name="completedGoal"
           component={completedGoal}
+          options={{gestureEnabled: false}}
         />
         <Stack.Screen 
           name="Onboarding"
@@ -36,7 +37,7 @@ export default function App() {
         <Stack.Screen 
           name="Home"
           component={Home}
-          // options={{gestureEnabled: false}}
+          options={{gestureEnabled: false}}
         />
         <Stack.Screen 
           name="setGoal"

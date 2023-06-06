@@ -14,7 +14,7 @@ const resetAsyncStorage = async () => {
   }
 }
 // Comment out below if you want to start session from login page
-resetAsyncStorage()
+// resetAsyncStorage()
 
 const saveUUID = async (value) => {
   try {
