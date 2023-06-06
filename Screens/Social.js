@@ -48,7 +48,7 @@ export default function Social({ navigation }) {
     getUUID().then((uuid) => {
       if (uuid !== username) {
         const db = getDatabase(firebase);
-        const currentUserFriendRef = dbRef(db, 'users/' + uuid + '/friends');
+        const currentUserFriendRef = ref(db, 'users/' + uuid + '/friends');
   
         // Check if the 'friends' object exists for the current user
         get(currentUserFriendRef)
@@ -57,25 +57,17 @@ export default function Social({ navigation }) {
   
             if (friendsData === null) {
               // Create 'friends' object if it doesn't exist
-              const friends = { [username]: true };
-              set(currentUserFriendRef, friends)
-                .then(() => {
-                  console.log(`Created friends folder and added ${username} as a friend.`);
-                })
-                .catch((error) => {
-                  console.error('Failed to create friends folder:', error);
-                });
+              set(ref(db, 'users/' + uuid + '/friends/'), {
+                friends: username
+              });
+            
             } else {
               // Append the 'username' to the 'friends' folder for the current user
               if (!friendsData[username]) {
-                const updatedFriends = { ...friendsData, username};
-                set(currentUserFriendRef, updatedFriends)
-                  .then(() => {
-                    console.log(`Added ${username} as a friend.`);
-                  })
-                  .catch((error) => {
-                    console.error('Failed to add friend:', error);
-                  });
+                set((currentUserFriendRef), {
+                    friends: username
+                });
+                  
               } else {
                 console.log(`${username} is already a friend.`);
               }
