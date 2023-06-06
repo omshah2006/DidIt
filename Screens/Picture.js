@@ -86,12 +86,12 @@ export default function Add({ navigation, route }) {
 
   const takePicture = async () => {
     if (camera) {
-        const { goalText } = route.params;
+        const goalText = route.params.goalText;
         console.log(goalText)
         const data = await camera.takePictureAsync({quality: 0.1});
         setImageUri(data.uri);
         const img = await fetch(data.uri);
-        navigation.navigate('Photo', { imageData: img.url, goalSet: goalText });
+        navigation.navigate('Photo', { imageData: img.url, goalText: goalText });
       //   const img = await fetch(data.uri);
       //   const bytes = await img.blob();
   
@@ -174,7 +174,7 @@ export default function Add({ navigation, route }) {
         </View>
         <View style={styles.container2}>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Signup")}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("setGoal")}>
           <Image 
           style={styles.image}
           source={require('../assets/back.png')} 
