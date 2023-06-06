@@ -142,7 +142,7 @@ const LoginScreen = () => {
           <TouchableOpacity style={styles.loginBtn} activeOpacity = {0.9} onPress={handleLogin}>
             <Text style={styles.loginText}>LOGIN</Text>
           </TouchableOpacity>
-          <Text style ={styles.orText}> or </Text>
+      
           <TouchableOpacity style={styles.signupBtn} activeOpacity = {0.9} onPress={handleSignUp}>
             <Text style={styles.loginText}>SIGNUP</Text>
           </TouchableOpacity>
@@ -211,12 +211,12 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     marginTop:4,
     marginBottom:10,
-    borderColor: 'black',
+    borderColor: '#FF5B42',
     borderWidth: 2,
-    backgroundColor: '#FF5B42',
+    backgroundColor: 'transparent',
   },
   loginText:{
-    color:"black",
+    color:"white",
     fontWeight: 'bold',
 
   },
