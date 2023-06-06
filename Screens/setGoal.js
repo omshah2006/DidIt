@@ -35,7 +35,7 @@ export default function GoalScreen({ navigation }) {
     // Perform any necessary actions with the goal (e.g., save it to a database)
     // ...
     // After performing the actions, navigate to a different screen
-    navigation.navigate('Home');
+    navigation.navigate('Picture');
   };
 
   const clearPlaceholder = () => {
