@@ -49,16 +49,16 @@ export default function Home({ navigation, route }) {
                   }
                 }
               }
-
             });
           }
         }
         updateImages(allImages);
       });
     };
-
+    
     const updateImages = (allImages) => {
       setImages(allImages);
+      setLoading(false);
     };
 
     pullImages();
@@ -86,7 +86,7 @@ export default function Home({ navigation, route }) {
       <StatusBar style="auto" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
