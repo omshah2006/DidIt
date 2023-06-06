@@ -131,7 +131,7 @@ export default function Social({ navigation }) {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search users..."
+          placeholder="Add friend..."
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />
