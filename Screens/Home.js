@@ -92,10 +92,6 @@ export default function Home({ navigation, route }) {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Account")}>
           <AntDesign name="user" size={40} color="black" />
         </TouchableOpacity>
-        <Image 
-          style={styles.logoImage}
-          source={require('../assets/DidItLogo.png')} 
-        />
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Social")}>
           <Feather name="users" size={40} color="black" />
         </TouchableOpacity>
