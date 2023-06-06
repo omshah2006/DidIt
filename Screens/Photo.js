@@ -119,6 +119,7 @@ export default function Subtract({ navigation, route }) {
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
     send()
+    send();
   };
   
 
