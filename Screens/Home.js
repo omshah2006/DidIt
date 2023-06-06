@@ -12,14 +12,17 @@ export default function Home({ navigation }) {
       <View>
         {images.map((value, index) => (
           <View key={index} style={styles.imageContainer}>
-            <Text style={styles.username}>{value.username}</Text>
+            <View style={styles.rowContainer}>
+              <Text style={styles.username}>{value.username}</Text>
+            </View>
             <Text style={styles.moment}>{value.moment}</Text>
             <ExpoFastImage source={{ uri: value.img_url }} style={styles.image} />
           </View>
-  ))}
+        ))}
       </View>
     );
   };
+  
 
   useEffect(() => {
     const pullImages = () => {
@@ -70,6 +73,9 @@ export default function Home({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
             <Text style={styles.buttonText}>Take Picture</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
+            <Text style={styles.buttonText}>Social</Text>
         </TouchableOpacity>
       <ScrollView style={styles.scrollContainer}>
         {displayImages(images)}
