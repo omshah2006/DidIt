@@ -123,7 +123,7 @@ const LoginScreen = () => {
           <TextInput
             style={styles.inputText}
             placeholder="Email..." 
-            placeholderTextColor="#003f5c"
+            placeholderTextColor="white"
             value={email}
             onChangeText={text => setEmail(text)}
           />
@@ -133,7 +133,7 @@ const LoginScreen = () => {
             secureTextEntry
             style={styles.inputText}
             placeholder="Password..." 
-            placeholderTextColor="#003f5c"
+            placeholderTextColor="white"
             value={password}
             onChangeText={text => setPassword(text)}
           />
@@ -155,7 +155,7 @@ export default LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -167,12 +167,14 @@ const styles = StyleSheet.create({
   },
   inputView:{
     width:"80%",
-    backgroundColor:"#465881",
+    backgroundColor:"transparent",
     borderRadius:25,
     height:50,
     marginBottom:20,
     justifyContent:"center",
-    padding:20
+    padding:20,
+    borderColor: '#fb5b5a',
+    borderWidth: 2,
   },
   inputText:{
     height:50,
@@ -190,13 +192,15 @@ const styles = StyleSheet.create({
   },
   loginBtn:{
     width:"80%",
-    backgroundColor:"#fb5b5a",
     borderRadius:25,
     height:50,
     alignItems:"center",
     justifyContent:"center",
+    borderColor: '#fb5b5a',
+    borderWidth: 2,
     marginTop:40,
-    marginBottom:10
+    marginBottom:10,
+    backgroundColor: '#fb5b5a',
   },
   signupBtn:{
     width:"80%",
@@ -208,9 +212,12 @@ const styles = StyleSheet.create({
     marginBottom:10,
     borderColor: '#fb5b5a',
     borderWidth: 2,
+    backgroundColor: '#fb5b5a',
   },
   loginText:{
-    color:"white"
+    color:"black",
+    fontWeight: 'bold',
+
   },
   inputContainer: {
     width: '80%'
