@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Social({ navigation }) {
   const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState('');
+
 
   const displayUsers = (users) => {
     return (
@@ -20,7 +22,7 @@ export default function Social({ navigation }) {
                     style={styles.addButton}
                     onPress={() => handleAddFriend(value.info.username)}
                   >
-                    <Text style={styles.button2}>Add Friend</Text>
+                    <Text style={styles.button}>Add Friend</Text>
                   </TouchableOpacity>
                 </>
               ) : null}
@@ -44,6 +46,7 @@ export default function Social({ navigation }) {
       console.log(e);
     }
   };
+
   const handleAddFriend = (username) => {
     getUUID().then((uuid) => {
       if (uuid !== username) {
@@ -100,8 +103,8 @@ export default function Social({ navigation }) {
   
   
   useEffect(() => {
+    const db = getDatabase(firebase);
     const pullUsers = () => {
-      const db = getDatabase(firebase);
       const usersRef = ref(db, 'users/');
 
       onValue(usersRef, (snapshot) => {
@@ -129,23 +132,42 @@ export default function Social({ navigation }) {
       setUsers(allUsers);
     };
 
+    getUUID().then((uuid) => {
+      const usernameref = ref(db, 'users/' + uuid + '/info/username');
+      onValue(usernameref, (snapshot) => {
+        console.log('Username pulling from cloud');
+        const data = snapshot.val();
+        setUsername(data);
+        console.log('Username pulled from cloud');
+      });
+    });
+
     pullUsers();
   }, []);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("setGoal")}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.buttonCircle2} onPress={() => navigation.navigate("Home")}>
+          <Image style={styles.image2} source={require('../assets/back.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>{username}</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("setGoal")}>
         <Text style={styles.buttonText}>Set Goal</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
+      </TouchableOpacity> */}
+      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
         <Text style={styles.buttonText}>Your Photos</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
+      </TouchableOpacity> */}
+      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
         <Text style={styles.buttonText}>Take Picture</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
+      </TouchableOpacity> */}
+      {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
         <Text style={styles.buttonText}>Social</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <ScrollView style={styles.scrollContainer}>
         {displayUsers(users)}
       </ScrollView>
@@ -157,7 +179,7 @@ export default function Social({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 40,
@@ -172,7 +194,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     paddingTop: 20,
-    backgroundColor: 'black',
+    backgroundColor: '#003f5c',
     borderRadius: 20,
   },
   imageContainer: {
@@ -201,13 +223,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: 'rgba(251, 91, 90, 0.8)',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
     elevation: 10,
-    marginHorizontal: 5,
     marginBottom: 10,
+    marginTop: 10,
   },
   button2: {
     backgroundColor: 'white',
@@ -228,6 +250,26 @@ const styles = StyleSheet.create({
   moment: {
     fontSize: 14,
     color: 'grey',
+    marginBottom: 10,
+  },
+  image2: {
+    width: 45,
+    height: 45,
+    marginLeft: 7,
+    marginTop: 7,
+  },
+  buttonCircle2: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'white',
+    marginRight: 150,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 10,
   },
 });
