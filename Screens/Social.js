@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text, FlatList } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue, set, get } from "firebase/database"
-import ExpoFastImage from 'expo-fast-image'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Social({ navigation }) {
   const [users, setUsers] = useState([]);
@@ -47,6 +47,7 @@ export default function Social({ navigation }) {
   const handleAddFriend = (username) => {
     getUUID().then((uuid) => {
       if (uuid !== username) {
+        console.log(uuid)
         const db = getDatabase(firebase);
         const currentUserFriendRef = ref(db, 'users/' + uuid + '/friends');
   
