@@ -20,57 +20,14 @@ export default function Home({ navigation, route }) {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
 
-  const pullImages = () => {
-    getUUID()
-      .then(uuid => {
-        const db = getDatabase(firebase);
-        const usersRef = ref(db, 'users/' + uuid + '/friends/');
-
-        onValue(usersRef, (snapshot) => {
-          const users = snapshot.val();
-          const allImages = [];
-
-          for (const friend in users) {
-            if (Object.hasOwnProperty.call(users, friend)) {
-              const imagesRef = ref(db, 'users/' + users[friend]["friend_uuid"] + '/images/');
-
-              onValue(imagesRef, (snapshot) => {
-                const images = snapshot.val();
-
-                if (images) {
-                  for (const imageKey in images) {
-                    if (Object.hasOwnProperty.call(images, imageKey)) {
-                      allImages.push(images[imageKey]);
-                    }
-                  }
-                }
-              });
-            }
-          }
-          updateImages(allImages);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const updateImages = (allImages) => {
-    setImages(allImages);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    pullImages();
-  }, []);
-
   const displayImages = (images) => {
+    // Sort the images based on post time
     const sortedImages = images.sort((a, b) => {
       const momentA = new Date(a.moment).getTime();
       const momentB = new Date(b.moment).getTime();
       return momentA - momentB;
     });
-
+  
     return (
       <View style={styles.imageWrapper}>
         {sortedImages.reverse().map((value, index) => (
@@ -83,10 +40,49 @@ export default function Home({ navigation, route }) {
             />
             <Text style={styles.moment}>{value.goal}</Text>
           </View>
+
         ))}
       </View>
     );
   };
+
+  useEffect(() => {
+    const pullImages = () => {
+      const db = getDatabase(firebase);
+      const usersRef = ref(db, 'users/');
+
+      onValue(usersRef, (snapshot) => {
+        const users = snapshot.val();
+        const allImages = [];
+
+        for (const uuid in users) {
+          if (Object.hasOwnProperty.call(users, uuid)) {
+            const imagesRef = ref(db, 'users/' + uuid + '/images/');
+
+            onValue(imagesRef, (snapshot) => {
+              const images = snapshot.val();
+
+              if (images) {
+                for (const imageKey in images) {
+                  if (Object.hasOwnProperty.call(images, imageKey)) {
+                    allImages.push(images[imageKey]);
+                  }
+                }
+              }
+            });
+          }
+        }
+        updateImages(allImages);
+      });
+    };
+    
+    const updateImages = (allImages) => {
+      setImages(allImages);
+      setLoading(false);
+    };
+
+    pullImages();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -114,7 +110,7 @@ export default function Home({ navigation, route }) {
       <StatusBar style="auto" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
