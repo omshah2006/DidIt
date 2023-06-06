@@ -25,7 +25,7 @@ export default function GoalScreen({ navigation }) {
   }, [isFocused]);
 
   const generateRandomGoal = () => {
-    if (!isFocused) {
+    if (!isFocused && !goal) { // Check if the input field is not focused and not already containing a goal
       const randomIndex = Math.floor(Math.random() * randomGoals.length);
       setGoal(randomGoals[randomIndex]);
     }
@@ -38,7 +38,7 @@ export default function GoalScreen({ navigation }) {
 
   const handleGoalSubmit = () => {
     console.log(goal)
-    navigation.navigate('Picture', { goalText: goal }); // Pass the current goal state
+    navigation.navigate('completedGoal', { goalText: goal }); // Pass the current goal state
   };
 
   const handleFocus = () => {
@@ -57,7 +57,7 @@ export default function GoalScreen({ navigation }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder=""
+            placeholder="Set a Goal"
             placeholderTextColor="#000000"
             value={goal}
             onChangeText={handleGoalChange}
