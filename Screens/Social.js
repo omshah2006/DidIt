@@ -26,14 +26,14 @@ export default function Social({ navigation }) {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const displayUsers = (users) => {
+  const displayUsers = () => {
     // Filter users based on search query
     const filteredUsers = users.filter(
       (user) =>
         user.info &&
         user.info.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+  
     return (
       <View>
         {filteredUsers.map((value, index) => (
@@ -59,6 +59,7 @@ export default function Social({ navigation }) {
       </View>
     );
   };
+  
 
   const getUUID = async () => {
     try {
@@ -86,6 +87,9 @@ export default function Social({ navigation }) {
               push(ref(db, 'users/' + uuid + '/friends/'), {
                 friend_uuid: userUUID,
                 name: username,
+              }).then(() => {
+                // Update the search query to preserve the filtered list
+                setSearchQuery(searchQuery);
               });
             }
           }
@@ -93,6 +97,7 @@ export default function Social({ navigation }) {
       }
     });
   };
+  
 
   useEffect(() => {
     const pullUsers = () => {
