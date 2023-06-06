@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text, FlatList } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
-import { getDatabase, ref, onValue, set, get } from "firebase/database"
-import ExpoFastImage from 'expo-fast-image'
+import { getDatabase, ref, onValue, set, get, push } from "firebase/database"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Social({ navigation }) {
   const [users, setUsers] = useState([]);
@@ -47,6 +47,7 @@ export default function Social({ navigation }) {
   const handleAddFriend = (username) => {
     getUUID().then((uuid) => {
       if (uuid !== username) {
+        console.log(uuid)
         const db = getDatabase(firebase);
         const currentUserFriendRef = ref(db, 'users/' + uuid + '/friends');
   
@@ -57,14 +58,14 @@ export default function Social({ navigation }) {
   
             if (friendsData === null) {
               // Create 'friends' object if it doesn't exist
-              set(ref(db, 'users/' + uuid + '/friends/'), {
+              push(ref(db, 'users/' + uuid + '/friends/'), {
                 friends: username
               });
             
             } else {
               // Append the 'username' to the 'friends' folder for the current user
               if (!friendsData[username]) {
-                set((currentUserFriendRef), {
+                push((currentUserFriendRef), {
                     friends: username
                 });
                   
