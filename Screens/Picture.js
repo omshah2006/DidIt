@@ -8,6 +8,7 @@ import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref as dbRef, set, push } from "firebase/database"
 import uuid4 from 'uuid4';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Haptics from 'expo-haptics';
 
 export default function Add({ navigation, route }) {
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -86,6 +87,7 @@ export default function Add({ navigation, route }) {
 
   const takePicture = async () => {
     if (camera) {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         const goalText = route.params.goalText;
         console.log(goalText)
         const data = await camera.takePictureAsync({quality: 0.1});
@@ -231,7 +233,7 @@ export default function Add({ navigation, route }) {
     width: 82,
     height: 82,
     borderRadius: 41,
-    backgroundColor: 'white',
+    backgroundColor: '#FF5B42',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
@@ -256,7 +258,7 @@ export default function Add({ navigation, route }) {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'white',
+    backgroundColor: '#FF5B42',
   },
   buttonCircle2: {
     width: 60,
