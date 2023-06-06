@@ -5,7 +5,6 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ExpoFastImage from 'expo-fast-image'
 
-
 const getUUID = async () => {
   try {
     const value = await AsyncStorage.getItem('@session_id');
@@ -18,7 +17,7 @@ const getUUID = async () => {
 };
 
 const displayUserNames = () => {
-  const [username, setUsername] = useState(''); // Introduce state variable 'username'
+  const [username, setUsername] = useState('');
   const db = getDatabase(firebase);
 
   useEffect(() => {
@@ -27,18 +26,19 @@ const displayUserNames = () => {
       onValue(usernameref, (snapshot) => {
         console.log('Username pulling from cloud');
         const data = snapshot.val();
-        setUsername(data); // Update 'username' state with the retrieved value
+        setUsername(data);
         console.log('Username pulled from cloud');
       });
     });
   }, []);
 
   return (
-    <View>
+    <View style={styles.header}>
+      <TouchableOpacity style={styles.buttonCircle2} onPress={() => navigation.navigate("Home")}>
+        <Image style={styles.image2} source={require('../assets/back.png')} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
-        <View>
-          <Text style={styles.buttonText}>{username}</Text>
-        </View>
+        <Text style={styles.buttonText}>{username}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -47,14 +47,14 @@ const displayUserNames = () => {
 const displayImages = (images) => {
   const imageKeys = Object.keys(images);
   console.log('Displaying images...');
-
-  const rows = imageKeys.map((key, index) => {
+  const rows = imageKeys.reverse().map((key, index) => {
     const value = images[key];
     return (
-      <View key={`row_${index}`} style={styles.row}>
+      <View key={`row_${index}`} style={[styles.imageContainer, styles.roundedContainer, styles.row]}>
         <Text style={styles.username}>{value.username}</Text>
         <Text style={styles.moment}>{value.moment}</Text>
-        <ExpoFastImage source={{ uri: value.img_url }} style={styles.image} />
+        <ExpoFastImage source={{ uri: value.img_url }} style={[styles.image, styles.roundedImage]} />
+        <Text style={styles.moment}>{value.goal}</Text>
       </View>
     );
   });
@@ -106,12 +106,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#003f5c',
     alignItems: 'center',
-    paddingTop: 40,
+    paddingTop: 50,
   },
-  scrollContainer: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  imageContainer: {
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  roundedContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    padding: 10,
   },
   row: {
     flexDirection: 'column',
@@ -125,15 +135,26 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     borderWidth: 2,
   },
-  images: {},
+  roundedImage: {
+    borderRadius: 10,
+  },
+  buttonCircle2: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'white',
+    marginRight: 150,
+    marginBottom: 10,
+    marginTop: 10,
+  },
   button: {
     backgroundColor: 'rgba(251, 91, 90, 0.8)',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
     elevation: 10,
-    marginHorizontal: 5,
     marginBottom: 10,
+    marginTop: 10,
   },
   buttonText: {
     fontSize: 12,
@@ -146,11 +167,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: 'white',
+    color: 'black',
   },
   moment: {
     fontSize: 14,
-    color: 'white',
+    color: 'black',
     marginBottom: 10,
+  },
+  scrollContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  images: {
+    marginBottom: 20,
+  },
+  image2: {
+    width: 45,
+    height: 45,
+    marginLeft: 7,
+    marginTop: 7,
   },
 });

@@ -33,10 +33,6 @@ export default function Social({ navigation }) {
         user.info.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    if (searchQuery === '') {
-      return null; // Return null if search query is empty
-    }
-
     return (
       <View>
         {filteredUsers.map((value, index) => (
@@ -49,7 +45,7 @@ export default function Social({ navigation }) {
                     style={styles.addButton}
                     onPress={() => handleAddFriend(value.info.username)}
                   >
-                    <Text style={styles.button}>Add Friend</Text>
+                    <Text style={styles.button2}>Add Friend</Text>
                   </TouchableOpacity>
                 </>
               ) : null}
@@ -133,39 +129,41 @@ export default function Social({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('setGoal')}
-      >
-        <Text style={styles.buttonText}>Set Goal</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Account')}
-      >
-        <Text style={styles.buttonText}>Your Photos</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Picture')}
-      >
-        <Text style={styles.buttonText}>Take Picture</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Social')}
-      >
-        <Text style={styles.buttonText}>Social</Text>
-      </TouchableOpacity>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search users..."
-        value={searchQuery}
-        onChangeText={(text) => setSearchQuery(text)}
-      />
-      <ScrollView style={styles.scrollContainer}>
-        {displayUsers(users)}
-      </ScrollView>
+      <View style={styles.innerContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('setGoal')}
+        >
+          <Text style={styles.buttonText}>Set Goal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Account')}
+        >
+          <Text style={styles.buttonText}>Your Photos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Picture')}
+        >
+          <Text style={styles.buttonText}>Take Picture</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Social')}
+        >
+          <Text style={styles.buttonText}>Social</Text>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search users..."
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+        />
+        <ScrollView style={styles.scrollContainer}>
+          {displayUsers(users)}
+        </ScrollView>
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -174,36 +172,60 @@ export default function Social({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 40,
   },
+  innerContainer: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    width: Dimensions.get('window').width - 40,
+    height: Dimensions.get('window').height - 80,
+  },
   scrollContainer: {
     flex: 1,
-    paddingHorizontal: 20,
     paddingTop: 20,
+    backgroundColor: 'black',
+    borderRadius: 20,
   },
-  image: {
-    height: 400,
-    width: Dimensions.get('window').width - 40,
+  imageContainer: {
     marginBottom: 20,
-    borderColor: '#000000',
-    borderWidth: 2,
+    alignItems: 'center',
   },
-  logo: {
-    height: 150,
-    width: 200,
-    marginTop: 60,
-    marginBottom: 0,
-  },
-  buttonContainer: {
+  rowContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'grey',
+    marginBottom: 15,
+  },
+  addButton: {
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    elevation: 10,
+    marginHorizontal: 5,
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: 'rgba(251, 91, 90, 0.8)', // Transparent red color with 80% opacity
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    elevation: 10,
+    marginHorizontal: 5,
+    marginBottom: 10,
+  },
+  button2: {
+    backgroundColor: 'white',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
@@ -214,30 +236,21 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: 'white',
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
-  imageContainer: {
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  username: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: 'white',
-  },
   moment: {
     fontSize: 14,
-    color: 'white',
+    color: 'grey',
     marginBottom: 10,
   },
   searchInput: {
-    backgroundColor: '#FFF',
+    backgroundColor: 'grey',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
     marginBottom: 10,
+    color: 'black',
   },
 });
