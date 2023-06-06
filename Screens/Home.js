@@ -8,14 +8,13 @@ export default function Home({ navigation, route }) {
   const [images, setImages] = useState([]);
 
   const displayImages = (images) => {
-    const goalText = route.params.goalText
-    console.log(goalText)
     return (
       <View style={styles.imageWrapper}>
         {images.map((value, index) => (
           <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
             <Text style={styles.username}>{value.username}</Text>
             <Text style={styles.moment}>{value.moment}</Text>
+            <Text style={styles.moment}>{value.goal}</Text>
             <ExpoFastImage
               source={{ uri: value.img_url }}
               style={[styles.image, styles.roundedImage]}
