@@ -70,17 +70,14 @@ export default function Subtract({ navigation, route }) {
         .then((snapshot) => {
           const data = snapshot.val();
           console.log('Username retrieved:', data);
-          const { goalSet } = route.params;
-          console.log(goalSet)
           const imageRef = dbRef(db, 'users/' + uuid + '/images');
           const newImageRef = push(imageRef);
-          console.log('Yo')
           time = moment().format('MMMM Do YYYY, h:mm:ss a');
           set(newImageRef, {
             img_url: image_url,
             username: data, // Use the retrieved username here
             moment: time,
-            goal: goalSet,
+            goal: goalText,
           });
           
           console.log('Image reference added to the database.');
@@ -92,10 +89,6 @@ export default function Subtract({ navigation, route }) {
       console.error('Error:', error);
     }
   };
-  
-  
-  
-  
 
   const flipCamera = () => {
     setType(
@@ -104,19 +97,6 @@ export default function Subtract({ navigation, route }) {
         : Camera.Constants.Type.back
     );
   };
-
-  // const takePicture = async () => {
-  //   if (camera) {
-  //     const data = await camera.takePictureAsync({quality: 0.1});
-  //     setImageUri(data.uri);
-  //     const storage = getStorage(); //the storage itself
-  //     var uuid = uuid4();
-  //     const storageRef = ref(storage, uuid + '.jpg');
-
-  //     const img = await fetch(data.uri);
-  //     const bytes = await img.blob();
-      
-  //     await uploadBytesResumable(storageRef, bytes).then((snapshot) => {
 
   const handlePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
@@ -138,7 +118,8 @@ export default function Subtract({ navigation, route }) {
   
         const url = await getDownloadURL(snapshot.ref);
         console.log(url);
-        addImageReference(url);
+        const goalText = route.params.goalText
+        addImageReference(url, goalText);
       } 
       catch (error) {
         console.error('Error uploading image:', error);
@@ -203,7 +184,7 @@ export default function Subtract({ navigation, route }) {
         </View>
         <View style={styles.container2}>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Picture")}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Picture", {goalText: route.params.goalText})}>
           <Image 
           style={styles.image}
           source={require('../assets/back.png')} 

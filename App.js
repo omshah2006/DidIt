@@ -6,9 +6,11 @@ import Photos from "./Screens/Photos"
 import Photo from "./Screens/Photo"
 import Account from "./Screens/Account"
 import setGoal from "./Screens/setGoal"
+import Social from "./Screens/Social"
 import completedGoal from "./Screens/completedGoal"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +56,10 @@ export default function App() {
         <Stack.Screen
           name="Account"
           component={Account}
+        />
+        <Stack.Screen
+          name="Social"
+          component={Social}
         />
       </Stack.Navigator>
     </NavigationContainer>

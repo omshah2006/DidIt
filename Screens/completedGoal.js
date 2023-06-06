@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function GoalScreen({ navigation }) {
+export default function GoalScreen({ navigation, route }) {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const handleCheckboxToggle = () => {
@@ -10,7 +10,9 @@ export default function GoalScreen({ navigation }) {
   };
 
   const handleGoalSubmit = () => {
-    navigation.navigate('Picture', { goalText: fetch(route.params.imageData)});
+    const goalText = route.params.goalText
+    console.log(goalText)
+    navigation.navigate('Picture', { goalText: goalText });
   };
 
   return (
