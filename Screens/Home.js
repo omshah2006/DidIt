@@ -8,18 +8,24 @@ export default function Home({ navigation, route }) {
   const [images, setImages] = useState([]);
 
   const displayImages = (images) => {
+    // Sort the images based on post time
+    const sortedImages = images.sort((a, b) => {
+      const momentA = new Date(a.moment).getTime();
+      const momentB = new Date(b.moment).getTime();
+      return momentB - momentA;
+    });
+  
     return (
       <View style={styles.imageWrapper}>
-        {images.map((value, index) => (
+        {sortedImages.map((value, index) => (
           <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
             <Text style={styles.username}>{value.username}</Text>
             <Text style={styles.moment}>{value.moment}</Text>
-            <Text style={styles.moment}>{value.goal}</Text>
             <ExpoFastImage
               source={{ uri: value.img_url }}
               style={[styles.image, styles.roundedImage]}
             />
-            <Text style={styles.moment}>{"dsd"}</Text>
+            <Text style={styles.moment}>{value.goal}</Text>
           </View>
         ))}
       </View>
@@ -77,7 +83,7 @@ export default function Home({ navigation, route }) {
           <Text style={styles.buttonText}>Take Picture</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
-            <Text style={styles.buttonText}>Social</Text>
+          <Text style={styles.buttonText}>Social</Text>
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
