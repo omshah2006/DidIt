@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, Touch
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ExpoFastImage from 'expo-fast-image'
+
 
 const getUUID = async () => {
   try {
@@ -52,7 +54,7 @@ const displayImages = (images) => {
       <View key={`row_${index}`} style={styles.row}>
         <Text style={styles.username}>{value.username}</Text>
         <Text style={styles.moment}>{value.moment}</Text>
-        <Image source={{ uri: value.img_url }} style={styles.image} />
+        <ExpoFastImage source={{ uri: value.img_url }} style={styles.image} />
       </View>
     );
   });
