@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, Dimensions, ScrollView, StatusBar, Touch
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ExpoFastImage from 'expo-fast-image'
+import ExpoFastImage from 'expo-fast-image';
 
 const getUUID = async () => {
   try {
@@ -50,11 +50,13 @@ const displayImages = (images) => {
   const rows = imageKeys.reverse().map((key, index) => {
     const value = images[key];
     return (
-      <View key={`row_${index}`} style={[styles.imageContainer, styles.roundedContainer, styles.row]}>
-        <Text style={styles.username}>{value.username}</Text>
-        <Text style={styles.moment}>{value.moment}</Text>
-        <ExpoFastImage source={{ uri: value.img_url }} style={[styles.image, styles.roundedImage]} />
-        <Text style={styles.moment}>{value.goal}</Text>
+      <View style={styles.imageWrapper} key={`row_${index}`}>
+        <View style={[styles.imageContainer, styles.roundedContainer]}>
+          <Text style={styles.username}>{value.username}</Text>
+          <Text style={styles.moment}>{value.moment}</Text>
+          <ExpoFastImage source={{ uri: value.img_url }} style={[styles.image, styles.roundedImage]} />
+          <Text style={styles.moment}>{value.goal}</Text>
+        </View>
       </View>
     );
   });
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     marginBottom: 20,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   roundedContainer: {
     backgroundColor: '#ffffff',
@@ -143,9 +144,9 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     backgroundColor: 'white',
-    marginRight: 150,
     marginBottom: 10,
     marginTop: 10,
+    marginRight: 150,
   },
   button: {
     backgroundColor: 'rgba(251, 91, 90, 0.8)',
@@ -176,7 +177,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    paddingHorizontal: 20,
     paddingVertical: 20,
   },
   images: {
@@ -187,5 +187,9 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 7,
     marginTop: 7,
+  },
+  imageWrapper: {
+    alignItems: 'center',
+    flex: 1,
   },
 });

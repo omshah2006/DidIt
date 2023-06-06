@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
     padding: 20,
     width: Dimensions.get('window').width - 40,
     height: Dimensions.get('window').height - 80,
+    marginRight: 20,
   },
   scrollContainer: {
     flex: 1,
