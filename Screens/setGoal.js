@@ -15,15 +15,20 @@ const randomGoals = [
 export default function GoalScreen({ navigation }) {
   const [goal, setGoal] = useState('');
   const [isGoalSettable, setIsGoalSettable] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(generateRandomGoal, 2000); // Generate a new random goal every 2 seconds
-    return () => clearInterval(interval); // Clear interval on component unmount
-  }, []);
+    if (!isFocused) {
+      const interval = setInterval(generateRandomGoal, 2000); // Generate a new random goal every 2 seconds
+      return () => clearInterval(interval); // Clear interval on component unmount
+    }
+  }, [isFocused]);
 
   const generateRandomGoal = () => {
-    const randomIndex = Math.floor(Math.random() * randomGoals.length);
-    setGoal(randomGoals[randomIndex]);
+    if (!isFocused) {
+      const randomIndex = Math.floor(Math.random() * randomGoals.length);
+      setGoal(randomGoals[randomIndex]);
+    }
   };
 
   const handleGoalChange = (text) => {
@@ -32,16 +37,17 @@ export default function GoalScreen({ navigation }) {
   };
 
   const handleGoalSubmit = () => {
-    // Perform any necessary actions with the goal (e.g., save it to a database)
-    // ...
-    // After performing the actions, navigate to a different screen
-    navigation.navigate('Picture');
+    console.log(goal)
+    navigation.navigate('Picture', { goalText: goal }); // Pass the current goal state
   };
 
-  const clearPlaceholder = () => {
-    if (goal === randomGoals[0]) {
-      setGoal('');
-    }
+  const handleFocus = () => {
+    setIsFocused(true);
+    setGoal(''); // Clear the text box when the user focuses on it
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
   };
 
   return (
@@ -51,10 +57,12 @@ export default function GoalScreen({ navigation }) {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder={goal === '' ? 'Set your goal' : goal}
+            placeholder=""
             placeholderTextColor="#000000"
+            value={goal}
             onChangeText={handleGoalChange}
-            onFocus={clearPlaceholder}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
         </View>
         <TouchableOpacity
@@ -94,6 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: '#000000',
     marginBottom: 40,
+    textAlign: 'center',
   },
   inputView: {
     width: '100%',
@@ -122,7 +131,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   goalText: {
-    color: '#000000',
+    color: 'black',
     fontWeight: 'bold',
     fontSize: 18,
     textTransform: 'uppercase',
