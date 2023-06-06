@@ -36,6 +36,7 @@ export default function App() {
         <Stack.Screen 
           name="Home"
           component={Home}
+          // options={{gestureEnabled: false}}
         />
         <Stack.Screen 
           name="setGoal"
