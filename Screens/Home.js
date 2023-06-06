@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
 import { getDatabase, ref, onValue } from "firebase/database"
+import { AntDesign, Feather } from '@expo/vector-icons';
 import ExpoFastImage from 'expo-fast-image'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -38,7 +39,7 @@ export default function Home({ navigation, route }) {
               source={{ uri: value.img_url }}
               style={[styles.image, styles.roundedImage]}
             />
-            <Text style={styles.username}>Accomplished their goal: {value.goal}!</Text>
+            <Text style={styles.moment}>{value.goal}!</Text>
           </View>
 
         ))}
@@ -87,17 +88,11 @@ export default function Home({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("setGoal")}>
-          <Text style={styles.buttonText}>Set Goal</Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Account")}>
+          <AntDesign name="user" size={40} color="#FFFFFF" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
-          <Text style={styles.buttonText}>Your Photos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
-          <Text style={styles.buttonText}>Take Picture</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
-          <Text style={styles.buttonText}>Social</Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Social")}>
+          <Feather name="users" size={40} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
@@ -120,6 +115,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderRadius: 20,
     padding: 20,
     width: '80%',
@@ -131,21 +128,13 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 20,
   },
-  button: {
+  buttonContainer: {
     backgroundColor: 'rgba(251, 91, 90, 0.8)',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 15,
+    padding: 10,
+    borderRadius: 50,
     elevation: 10,
     marginHorizontal: 5,
     marginBottom: 10,
-  },
-  buttonText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    alignSelf: 'center',
-    textTransform: 'uppercase',
   },
   scrollContentContainer: {
     flexGrow: 1,
