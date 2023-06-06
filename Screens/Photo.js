@@ -224,6 +224,7 @@ export default function Subtract({ navigation, route }) {
     },
     cameraContainer: {
       flex: 4,
+      marginLeft: -1,
     },
     fixedRatio: {
       aspectRatio: 0.5,
