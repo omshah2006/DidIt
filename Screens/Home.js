@@ -9,12 +9,10 @@ export default function Home({ navigation }) {
 
   const displayImages = (images) => {
     return (
-      <View>
+      <View style={styles.imageWrapper}>
         {images.map((value, index) => (
-          <View key={index} style={styles.imageContainer}>
-            <View style={styles.rowContainer}>
-              <Text style={styles.username}>{value.username}</Text>
-            </View>
+          <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
+            <Text style={styles.username}>{value.username}</Text>
             <Text style={styles.moment}>{value.moment}</Text>
             <ExpoFastImage source={{ uri: value.img_url }} style={styles.image} />
           </View>
@@ -22,7 +20,6 @@ export default function Home({ navigation }) {
       </View>
     );
   };
-  
 
   useEffect(() => {
     const pullImages = () => {
@@ -65,19 +62,21 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}  onPress={() => navigation.navigate("setGoal")}>
+      <View style={styles.contentContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("setGoal")}>
           <Text style={styles.buttonText}>Set Goal</Text>
         </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
-            <Text style={styles.buttonText}>Your Photos</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Account")}>
+          <Text style={styles.buttonText}>Your Photos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Picture")}>
-            <Text style={styles.buttonText}>Take Picture</Text>
+          <Text style={styles.buttonText}>Take Picture</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Social")}>
             <Text style={styles.buttonText}>Social</Text>
         </TouchableOpacity>
-      <ScrollView style={styles.scrollContainer}>
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollContentContainer}>
         {displayImages(images)}
       </ScrollView>
       <StatusBar style="auto" />
@@ -89,32 +88,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#003f5c',
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingTop: 40,
+    alignItems: 'center',
   },
-  scrollContainer: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  image: {
-    height: 400,
-    width: Dimensions.get('window').width - 40,
+  contentContainer: {
+    borderRadius: 20,
+    padding: 20,
+    width: '80%',
+    alignItems: 'center',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
     marginBottom: 20,
-    borderColor: '#000000',
-    borderWidth: 2,
-  },
-  logo: {
-    height: 150,
-    width: 200,
-    marginTop: 60,
-    marginBottom: 0,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 10,
   },
   button: {
     backgroundColor: 'rgba(251, 91, 90, 0.8)', // Transparent red color with 80% opacity
@@ -132,21 +119,39 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
+  scrollContentContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  imageWrapper: {
+    alignItems: 'center',
+  },
   imageContainer: {
     marginBottom: 20,
     alignItems: 'center',
+  },
+  roundedContainer: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    padding: 10,
   },
   username: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: 'white',
+    color: 'black',
   },
   moment: {
     fontSize: 14,
-    color: 'white',
+    color: 'black',
     marginBottom: 10,
   },
+  image: {
+    height: 400,
+    width: Dimensions.get('window').width - 40,
+    marginBottom: 20,
+    borderColor: '#000000',
+    borderWidth: 2,
+  },
 });
-
-
