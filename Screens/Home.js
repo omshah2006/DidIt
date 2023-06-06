@@ -69,46 +69,20 @@ export default function Home({ navigation, route }) {
                   }
                 }
               }
-
             });
           }
         }
         updateImages(allImages);
       });
     };
+    
+    const updateImages = (allImages) => {
+      setImages(allImages);
+      setLoading(false);
+    };
 
-  const updateImages = (allImages) => {
-    setImages(allImages);
-    setLoading(false);
-  };
-
-  useEffect(() => {
     pullImages();
   }, []);
-
-  const displayImages = (images) => {
-    const sortedImages = images.sort((a, b) => {
-      const momentA = new Date(a.moment).getTime();
-      const momentB = new Date(b.moment).getTime();
-      return momentA - momentB;
-    });
-
-    return (
-      <View style={styles.imageWrapper}>
-        {sortedImages.reverse().map((value, index) => (
-          <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
-            <Text style={styles.username}>{value.username}</Text>
-            <Text style={styles.moment}>{value.moment}</Text>
-            <ExpoFastImage
-              source={{ uri: value.img_url }}
-              style={[styles.image, styles.roundedImage]}
-            />
-            <Text style={styles.moment}>{value.goal}</Text>
-          </View>
-        ))}
-      </View>
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -136,7 +110,7 @@ export default function Home({ navigation, route }) {
       <StatusBar style="auto" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
