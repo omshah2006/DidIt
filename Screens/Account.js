@@ -16,7 +16,7 @@ const getUUID = async () => {
   }
 };
 
-const displayUserNames = () => {
+const displayUserNames = (navigation) => {
   const [username, setUsername] = useState('');
   const db = getDatabase(firebase);
 
@@ -94,7 +94,7 @@ export default function Account({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {displayUserNames()}
+      {displayUserNames(navigation)}
       <ScrollView style={styles.scrollContainer}>
         {displayImages(images)}
       </ScrollView>
