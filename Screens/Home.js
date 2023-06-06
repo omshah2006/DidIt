@@ -88,11 +88,16 @@ export default function Home({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
+      
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Account")}>
-          <AntDesign name="user" size={40} color="#FFFFFF" />
+          <AntDesign name="user" size={40} color="black" />
         </TouchableOpacity>
+        <Image 
+          style={styles.logoImage}
+          source={require('../assets/DidItLogo.png')} 
+        />
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Social")}>
-          <Feather name="users" size={40} color="#FFFFFF" />
+          <Feather name="users" size={40} color="black" />
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContentContainer}>
@@ -110,7 +115,7 @@ export default function Home({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: 'black',
     paddingTop: 40,
     alignItems: 'center',
   },
@@ -129,12 +134,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonContainer: {
-    backgroundColor: 'rgba(251, 91, 90, 0.8)',
+    backgroundColor: '#FF5B42',
     padding: 10,
     borderRadius: 50,
     elevation: 10,
-    marginHorizontal: 5,
-    marginBottom: 10,
+    marginHorizontal: -20,
+    marginBottom: -30,
   },
   scrollContentContainer: {
     flexGrow: 1,
@@ -174,4 +179,9 @@ const styles = StyleSheet.create({
   roundedImage: {
     borderRadius: 10,
   },
+  logoImage: {
+    width: 120,
+    height: 120,
+    marginBottom: -40
+  }
 });

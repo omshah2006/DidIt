@@ -106,7 +106,7 @@ export default function Account({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: 'black',
     alignItems: 'center',
     paddingTop: 50,
   },
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginRight: 150,
   },
   button: {
-    backgroundColor: 'rgba(251, 91, 90, 0.8)',
+    backgroundColor: '#FF5B42',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
