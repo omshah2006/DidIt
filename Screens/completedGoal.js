@@ -10,7 +10,7 @@ export default function GoalScreen({ navigation }) {
   };
 
   const handleGoalSubmit = () => {
-    navigation.navigate('Picture');
+    navigation.navigate('Picture', { goalText: fetch(route.params.imageData)});
   };
 
   return (

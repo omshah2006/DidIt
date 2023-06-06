@@ -30,6 +30,7 @@ export default function GoalScreen({ navigation }) {
       setGoal(randomGoals[randomIndex]);
     }
   };
+  
 
   const handleGoalChange = (text) => {
     setGoal(text);

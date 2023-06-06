@@ -91,7 +91,7 @@ export default function Add({ navigation, route }) {
         const data = await camera.takePictureAsync({quality: 0.1});
         setImageUri(data.uri);
         const img = await fetch(data.uri);
-        navigation.navigate('Photo', { imageData: img.url, goalSet: goalText });
+        navigation.navigate('Photo', { imageData: img.url, goalSet: fetch(route.params.imageData)});
       //   const img = await fetch(data.uri);
       //   const bytes = await img.blob();
   
