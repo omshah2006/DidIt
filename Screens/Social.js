@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 40,
+    paddingTop: 50,
   },
   header: {
     flexDirection: 'row',
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   resultContainer: {
-    maxHeight: 150,
+    maxHeight: 500,
     borderRadius: 15,
   },
   userContainer: {
