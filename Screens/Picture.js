@@ -9,7 +9,7 @@ import { getDatabase, ref as dbRef, set, push } from "firebase/database"
 import uuid4 from 'uuid4';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Add({ navigation }) {
+export default function Add({ navigation, route }) {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState(null);
 
@@ -86,10 +86,12 @@ export default function Add({ navigation }) {
 
   const takePicture = async () => {
     if (camera) {
+        const { goalText } = route.params;
+        console.log(goalText)
         const data = await camera.takePictureAsync({quality: 0.1});
         setImageUri(data.uri);
         const img = await fetch(data.uri);
-        navigation.navigate("Photo", {imageData: img.url})
+        navigation.navigate('Photo', { imageData: img.url, goalSet: goalText });
       //   const img = await fetch(data.uri);
       //   const bytes = await img.blob();
   
@@ -172,7 +174,7 @@ export default function Add({ navigation }) {
         </View>
         <View style={styles.container2}>
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Home")}>
+          <TouchableOpacity style={styles.buttonCircle2}  onPress={() => navigation.navigate("Signup")}>
           <Image 
           style={styles.image}
           source={require('../assets/back.png')} 
