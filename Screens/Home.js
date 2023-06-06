@@ -12,12 +12,12 @@ export default function Home({ navigation, route }) {
     const sortedImages = images.sort((a, b) => {
       const momentA = new Date(a.moment).getTime();
       const momentB = new Date(b.moment).getTime();
-      return momentB - momentA;
+      return momentA - momentB;
     });
   
     return (
       <View style={styles.imageWrapper}>
-        {sortedImages.map((value, index) => (
+        {sortedImages.reverse().map((value, index) => (
           <View key={index} style={[styles.imageContainer, styles.roundedContainer]}>
             <Text style={styles.username}>{value.username}</Text>
             <Text style={styles.moment}>{value.moment}</Text>
@@ -27,6 +27,7 @@ export default function Home({ navigation, route }) {
             />
             <Text style={styles.moment}>{value.goal}</Text>
           </View>
+
         ))}
       </View>
     );
