@@ -5,10 +5,11 @@ const randomGoals = [
   'E.g. run a mile',
   'E.g. read a book',
   'E.g. practice spanish',
-  'E.g. practice yoga',
+  'E.g. do some yoga',
   'E.g. write a poem',
   'E.g. paint a picture',
   'E.g. cook a new recipe',
+  'E.g. drink 2 bottles of water',
 ];
 
 export default function GoalScreen({ navigation }) {
@@ -46,8 +47,8 @@ export default function GoalScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.logo}>Set Your Goal</Text>  
-      <View style={styles.inputView}>
+        <Text style={styles.logo}>Set Your Goal</Text>
+        <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
             placeholder={goal === '' ? 'Set your goal' : goal}
@@ -82,6 +83,11 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '80%',
     alignItems: 'center',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   logo: {
     fontWeight: 'bold',

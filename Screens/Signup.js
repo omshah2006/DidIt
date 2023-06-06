@@ -47,7 +47,7 @@ const LoginScreen = () => {
     .then(uuid => {
       if (uuid !== undefined) {
         console.log("nagivation rerouted" + uuid)
-        navigation.replace("Home")
+        navigation.replace("setGoal")
       }
     })
   }
@@ -60,7 +60,7 @@ const LoginScreen = () => {
         if (isNewUser) {
           navigation.replace("Onboarding")
         } else {
-          navigation.replace("Home")
+          navigation.replace("setGoal")
         }
       }
     })
