@@ -38,7 +38,7 @@ export default function Home({ navigation, route }) {
               source={{ uri: value.img_url }}
               style={[styles.image, styles.roundedImage]}
             />
-            <Text style={styles.moment}>{value.goal}</Text>
+            <Text style={styles.username}>Accomplished their goal: {value.goal}!</Text>
           </View>
 
         ))}

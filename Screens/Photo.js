@@ -18,6 +18,7 @@ export default function Subtract({ navigation, route }) {
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [imageUploaded, setImageUploaded] = useState(false)
 
   const NewScreen = ({ route }) => {
     const { imageUri } = route.params;
@@ -99,6 +100,7 @@ export default function Subtract({ navigation, route }) {
   };
 
   const handlePress = () => {
+    setImageUploaded(true)
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
     send();
     navigation.navigate("Home")
@@ -191,15 +193,28 @@ export default function Subtract({ navigation, route }) {
         />
         </TouchableOpacity>
         </View>
-
-        <View style={styles.buttons}>
-          <TouchableOpacity style={styles.buttonCircle2}  onPress={handlePress}>
-          <Image 
-          style={styles.image}
-          source={require('../assets/sned.png')} 
-        />
-        </TouchableOpacity>
-        </View>
+        {
+          !imageUploaded &&    
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.buttonCircle2}  onPress={handlePress}>
+              <Image 
+              style={styles.image}
+              source={require('../assets/sned.png')} 
+              />
+            </TouchableOpacity>
+          </View>
+        }
+        {
+          imageUploaded &&    
+          <View style={styles.buttons}>
+            <TouchableOpacity style={styles.buttonCircle2}>
+              <Image 
+              style={styles.image}
+              source={require('../assets/sned.png')} 
+              />
+            </TouchableOpacity>
+          </View>
+        }
         </View>
       </View>
     );
