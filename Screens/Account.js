@@ -50,11 +50,13 @@ const displayImages = (images) => {
   const rows = imageKeys.reverse().map((key, index) => {
     const value = images[key];
     return (
-      <View key={`row_${index}`} style={[styles.imageContainer, styles.roundedContainer, styles.row]}>
+      <View style={styles.imageWrapper}>
+      <View key={`row_${index}`} style={[styles.imageContainer, styles.roundedContainer]}>
         <Text style={styles.username}>{value.username}</Text>
         <Text style={styles.moment}>{value.moment}</Text>
         <ExpoFastImage source={{ uri: value.img_url }} style={[styles.image, styles.roundedImage]} />
         <Text style={styles.moment}>{value.goal}</Text>
+      </View>
       </View>
     );
   });
@@ -116,7 +118,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     marginBottom: 20,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   roundedContainer: {
     backgroundColor: '#ffffff',
@@ -187,5 +188,9 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: 7,
     marginTop: 7,
+  },
+  imageWrapper: {
+    alignItems: 'center',
+    flex: 1, // Add this line
   },
 });
