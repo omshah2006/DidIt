@@ -1,120 +1,134 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDatabase, ref, set } from "firebase/database"
+import { getDatabase, ref, set } from "firebase/database";
 import { firebase } from '../firebaseConfig.js';
-
 
 export default function Home({ navigation }) {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    // Enable/disable the button based on the presence of data in both fields
+    setIsButtonDisabled(!(name && username));
+  }, [name, username]);
 
   const getUUID = async () => {
     try {
-      const value = await AsyncStorage.getItem('@session_id')
-      if(value !== null) {
-        return value
+      const value = await AsyncStorage.getItem('@session_id');
+      if (value !== null) {
+        return value;
       }
-    } catch(e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const saveUserInfo = (name, username) => {
-    getUUID()
-      .then(uuid => {
-        console.log(uuid)
-        const db = getDatabase(firebase);
-        set(ref(db, 'users/' + uuid + '/info'), {
-          name: name,
-          username: username
-        });
-      })
-  }
+    getUUID().then(uuid => {
+      console.log(uuid);
+      const db = getDatabase(firebase);
+      set(ref(db, 'users/' + uuid + '/info'), {
+        name: name,
+        username: username
+      });
+    });
+  };
 
   const handleOnboarding = () => {
     console.log("HEY");
     saveUserInfo(name, username);
     navigation.replace("Home");
-  }
+  };
 
   return (
     <View style={styles.container}>
-      {/* <Button 
-        style={styles.Button}
-        title="Onboarding"
-        onPress={() => navigation.navigate("Picture", { language: "english" })}
-      /> */}
-      <Text style={styles.logo}>Onboarding</Text>
-      <View style={styles.inputView}>
-        <TextInput  
-          style={styles.inputText}
-          placeholder="Name..." 
-          placeholderTextColor="#0a3e57"
-          value={name}
-          onChangeText={text => setName(text)}
-        />
+      <View style={styles.contentContainer}>
+        <Text style={styles.logo}>Additional Info</Text>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Name..."
+            placeholderTextColor="#ffffff"
+            value={name}
+            onChangeText={text => setName(text)}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Username..."
+            placeholderTextColor="#ffffff"
+            value={username}
+            onChangeText={text => setUsername(text)}
+          />
+        </View>
+        <TouchableOpacity
+          style={[styles.loginBtn, isButtonDisabled && styles.disabledButton]}
+          activeOpacity={0.9}
+          onPress={handleOnboarding}
+          disabled={isButtonDisabled}
+        >
+          <Text style={styles.loginText}>Next</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.inputView}>
-        <TextInput  
-          style={styles.inputText}
-          placeholder="Username..." 
-          placeholderTextColor="#003f5c"
-          value={username}
-          onChangeText={text => setUsername(text)}
-        />
-      </View>
-      <TouchableOpacity style={styles.loginBtn} activeOpacity={0.9} onPress={handleOnboarding}>
-        <Text style={styles.loginText}>Next</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  logo:{
-    fontWeight:"bold",
-    fontSize:50,
-    color:"#fb5b5a",
-    marginBottom:40
-  },
-  inputView:{
-    width:"80%",
-    backgroundColor:"#465881",
-    borderRadius:25,
-    height:50,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20
-  },
-  inputText:{
-    height:50,
-    color:"white"
-  },
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  forgot:{
-    color:"white",
-    fontSize:11
+  contentContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    width: '80%',
+    alignItems: 'center',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
-  loginText:{
-    color:"white"
+  logo: {
+    fontWeight: "bold",
+    fontSize: 50,
+    color: "#000",
+    marginBottom: 40
   },
-  loginBtn:{
-    width:"80%",
-    backgroundColor:"#fb5b5a",
-    borderRadius:25,
-    height:50,
-    alignItems:"center",
-    justifyContent:"center",
-    marginTop:40,
-    marginBottom:10
+  inputView: {
+    width: "100%",
+    backgroundColor: "#000000",
+    borderRadius: 25,
+    height: 50,
+    marginBottom: 20,
+    justifyContent: "center",
+    paddingHorizontal: 20
   },
-  Button:{
-    color:"black"
+  inputText: {
+    height: 50,
+    color: "#ffffff"
+  },
+  loginText: {
+    color: "#ffffff"
+  },
+  loginBtn: {
+    width: "100%",
+    backgroundColor: "#000000",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 10
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });
