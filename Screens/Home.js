@@ -92,7 +92,7 @@ export default function Home({ navigation, route }) {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Account")}>
           <AntDesign name="user" size={40} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Social")}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate("Communities")}>
           <Feather name="users" size={40} color="black" />
         </TouchableOpacity>
       </View>

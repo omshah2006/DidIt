@@ -1,48 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text, TextInput } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView, StatusBar, Text } from 'react-native';
 import { firebase } from '../firebaseConfig.js';
-import { getDatabase, ref, onValue, set, get, push } from "firebase/database"
+import { getDatabase, ref, onValue, set, get, push } from "firebase/database";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Social({ navigation }) {
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const displayUsers = (users) => {
-    const filteredUsers = users.filter(
-      (value) =>
-        value.info && value.info.username.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    if (searchQuery === '') {
-      return null;
-    }
-
-    return (
-      <View>
-        {filteredUsers.map((value, index) => (
-          <View key={index} style={styles.imageContainer}>
-            <View style={styles.rowContainer}>
-              {value.info && value.info.username ? (
-                <>
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={() => handleAddFriend(value.info.username)}
-                  >
-                    <Text style={styles.button}>{value.info.username}</Text>
-                  </TouchableOpacity>
-                </>
-              ) : null}
-            </View>
-            {value.info && value.info.moment ? (
-              <Text style={styles.moment}>{value.info.moment}</Text>
-            ) : null}
-          </View>
-        ))}
-      </View>
-    );
-  };
 
   const getUUID = async () => {
     try {
@@ -62,11 +26,19 @@ export default function Social({ navigation }) {
         const uuidForUsernameRef = ref(db, 'users/');
         get(uuidForUsernameRef).then((snapshot) => {
           const users = snapshot.val();
-          for (userUUID in users) {
+          for (const userUUID in users) {
             if (users[userUUID]["info"]["username"] === username) {
-              push(ref(db, 'users/' + uuid + '/friends/'), {
-                friend_uuid: userUUID,
-                name: username
+              const friendsRef = ref(db, 'users/' + uuid + '/friends/');
+              get(friendsRef).then((friendsSnapshot) => {
+                const friends = friendsSnapshot.val();
+                if (friends && Object.values(friends).some((friend) => friend.friend_uuid === userUUID)) {
+                  console.log('User already a friend');
+                } else {
+                  push(ref(db, 'users/' + uuid + '/friends/'), {
+                    friend_uuid: userUUID,
+                    name: username
+                  });
+                }
               });
             }
           }
@@ -74,6 +46,7 @@ export default function Social({ navigation }) {
       }
     });
   };
+  
 
   useEffect(() => {
     const db = getDatabase(firebase);
@@ -97,12 +70,9 @@ export default function Social({ navigation }) {
             });
           }
         }
-        updateUsers(allUsers);
-      });
-    };
 
-    const updateUsers = (allUsers) => {
-      setUsers(allUsers);
+        setUsers(allUsers);
+      });
     };
 
     getUUID().then((uuid) => {
@@ -128,17 +98,27 @@ export default function Social({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Add friend..."
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
-        />
-        <ScrollView style={styles.resultContainer}>
-          {displayUsers(users)}
-        </ScrollView>
-      </View>
+      <ScrollView style={styles.resultContainer}>
+        {users.map((value, index) => (
+          <View key={index} style={styles.imageContainer}>
+            <View style={styles.rowContainer}>
+              {value.info && value.info.username ? (
+                <>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => handleAddFriend(value.info.username)}
+                  >
+                    <Text style={styles.button}>{value.info.username}</Text>
+                  </TouchableOpacity>
+                </>
+              ) : null}
+            </View>
+            {value.info && value.info.moment ? (
+              <Text style={styles.moment}>{value.info.moment}</Text>
+            ) : null}
+          </View>
+        ))}
+      </ScrollView>
 
       <StatusBar style="auto" />
     </View>
@@ -189,19 +169,6 @@ const styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     textTransform: 'uppercase',
-  },
-  searchContainer: {
-    backgroundColor: 'black',
-    borderRadius: 20,
-    padding: 20,
-    width: Dimensions.get('window').width - 40,
-    marginBottom: 20,
-  },
-  searchInput: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 15,
-    marginBottom: 10,
   },
   resultContainer: {
     maxHeight: 500,

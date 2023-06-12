@@ -5,6 +5,7 @@ import { firebase } from '../firebaseConfig.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 import { getDatabase, ref, set } from "firebase/database"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Haptics from 'expo-haptics';
 
 const resetAsyncStorage = async () => {
   const asyncStorageKeys = await AsyncStorage.getAllKeys();
@@ -14,7 +15,7 @@ const resetAsyncStorage = async () => {
   }
 }
 // Comment out below if you want to start session from login page
-// resetAsyncStorage()
+resetAsyncStorage()
 
 const saveUUID = async (value) => {
   try {
@@ -107,7 +108,10 @@ const LoginScreen = () => {
         behavior="padding"
       >
          <Text style={styles.logo}>Did It</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)}
+
+        >
         <Image 
           style={styles.image}
           source={require('../assets/DidItLogo.png')} 
